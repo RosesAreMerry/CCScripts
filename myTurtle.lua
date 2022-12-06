@@ -52,9 +52,10 @@ function myTurtle.findItem(a)
 		turtle.select(i)
 		item = turtle.getItemDetail()
 		if not(item == nil) and item.name == ("minecraft:" .. a) then
-			return
+			return true
 		end
 	end
+	return true
 end
 
 function myTurtle.findEmpty()
@@ -96,8 +97,9 @@ function myTurtle.playerTunnel(a)
 		turtle.forward()
 		turtle.digDown()
 		if i % 8 == 0 then
-			myTurtle.findItem("torch")
-			turtle.placeDown()
+			if myTurtle.findItem("torch") then
+				turtle.placeDown()
+			end
 		end
 	end
 end
