@@ -47,6 +47,34 @@ function myTurtle.move(...)
 	end
 end
 
+function myTurtle.findItem(a)
+	for i = 1, 16 do
+		turtle.select(i)
+		if turtle.getItemDetail().name == ("minecraft:" + a) then
+			return
+		end
+	end
+end
+
+function myTurtle.organize()
+	myTurtle.findItem("torch")
+	turtle.transferTo(1)
+end
+
+--- Makes a player traversable tunnel, including torches.
+-- @param a Tunnel length 
+function myTurtle.playerTunnel(a)
+	for i = 1, a do
+		turtle.dig()
+		turtle.forward()
+		turtle.digDown()
+		if i % 8 == 0 then
+			turtle.placeDown()
+		end
+	end
+end
+
+
 myTurtle.dir = Direction
 
 return myTurtle
