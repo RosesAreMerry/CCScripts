@@ -78,7 +78,7 @@ function myTurtle.checkFuel(a)
 	level = turtle.getFuelLevel()
 	if ((a / 2) - 50) >= level then
 		if myTurtle.fuel() then
-			myTurtle.checkFuel()
+			return false
 		else
 			return false
 		end
