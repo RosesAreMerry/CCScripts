@@ -35,6 +35,7 @@ function moveWithNumber(a, b)
 			turtle.backward()
 		elseif a == Direction.DOWN then
 			turtle.down()
+		end
 	end
 end
 
