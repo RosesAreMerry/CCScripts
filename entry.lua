@@ -1,1 +1,1 @@
-shell.run("CCScripts/test1")
+shell.run("scripts/test1")
