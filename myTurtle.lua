@@ -89,7 +89,7 @@ end
 -- @param a Tunnel length 
 function myTurtle.playerTunnel(a)
 	for i = 1, a do
-		if not myTurtle.checkFuel() then
+		if not myTurtle.checkFuel(a) then
 			return
 		end
 		turtle.dig()
