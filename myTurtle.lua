@@ -13,9 +13,9 @@ Direction = {
 function myTurtle.turn(a)
 		shell.run("label set ", a)
 	if a == Direction.LEFT then
-		turtle.turnLeft()
-	elseif a == Direction.RIGHT then
 		turtle.turnRight()
+	elseif a == Direction.RIGHT then
+		turtle.turnLeft()
 	elseif a == Direction.BACKWARD then
 		turtle.turnRight()
 		turtle.turnRight()
