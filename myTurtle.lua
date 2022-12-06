@@ -87,7 +87,7 @@ function myTurtle.checkFuel(a)
 end
 
 function myTurtle.digMove()
-	while not turtle.inspect() == nil do
+	while not(turtle.inspect() == nil) do
 		turtle.dig()
 	end
 	turtle.forward()
