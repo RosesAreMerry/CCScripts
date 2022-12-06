@@ -51,7 +51,7 @@ function myTurtle.findItem(a)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
-		if item != nil && item.name == ("minecraft:" .. a) then
+		if not(item == nil) && item.name == ("minecraft:" .. a) then
 			return
 		end
 	end
