@@ -96,7 +96,7 @@ function myTurtle.playerTunnel(a)
 		turtle.forward()
 		turtle.digDown()
 		if i % 8 == 0 then
-			turtle.findItem("torch")
+			myTurtle.findItem("torch")
 			turtle.placeDown()
 		end
 	end
