@@ -1,1 +1,1 @@
-shell.run("./test1.lua")
+shell.run("CCScripts/test1")
