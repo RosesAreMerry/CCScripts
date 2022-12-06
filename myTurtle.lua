@@ -41,11 +41,9 @@ end
 
 function myTurtle.move(...)
 	if arg[2] == nil then
-		shell.run("label set 1")
 		moveOnlyDirection(arg[1])
 	else
 		moveWithNumber(arg[1], arg[2])
-		shell.run("label set 2")
 	end
 end
 
