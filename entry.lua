@@ -1,1 +1,1 @@
-shell.run("scripts/test1")
+shell.run("scripts/turtleMain")
