@@ -4,3 +4,4 @@ shell.run("rename startup.lua oldstart.lua")
 shell.run("rename start.lua startup.lua")
 shell.run("CCScripts/entry.lua")
 shell.run("delete oldstart.lua")
+-- Does this get copied?
