@@ -57,24 +57,50 @@ function myTurtle.findItem(a)
 	end
 end
 
-function myTurtle.organize()
-	myTurtle.findItem("torch")
-	turtle.transferTo(1)
+function myTurtle.findEmpty()
+	for i = 1, 16 do
+		turtle.select(i)
+		item = turtle.getItemDetail()
+		if item == nil then
+			return true
+		end
+	end
+	return false
+end
+
+function myTurtle.fuel()
+	myTurtle.findItem("coal")
+	return turtle.refuel()
+end
+
+function myTurtle.checkFuel(a)
+	level = turtle.getFuelLevel()
+	if ((a / 2) - 50) >= level then
+		if myTurtle.fuel() then
+			myTurtle.checkFuel()
+		else
+			return false
+		end
+	end
+	return true
 end
 
 --- Makes a player traversable tunnel, including torches.
 -- @param a Tunnel length 
 function myTurtle.playerTunnel(a)
 	for i = 1, a do
+		if not myTurtle.checkFuel() then
+			return
+		end
 		turtle.dig()
 		turtle.forward()
 		turtle.digDown()
 		if i % 8 == 0 then
+			turtle.findItem("torch")
 			turtle.placeDown()
 		end
 	end
 end
-
 
 myTurtle.dir = Direction
 
