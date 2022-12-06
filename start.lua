@@ -1,5 +1,5 @@
 -- Clone the repo to CCScripts (Could check version at some point)
-shell.run("github clone RosesAreMerry/CCScripts -b main")
+shell.run("github clone RosesAreMerry/CCScripts -b turtle")
 
 -- delete old scripts folder and rename. (So that files actually get deleted when they are no longer in git)
 shell.run("delete scripts")
