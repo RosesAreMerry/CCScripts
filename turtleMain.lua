@@ -1,3 +1,6 @@
 local t = require( "myTurtle" )
-t.move(t.Direction.LEFT, 2)
-t.move(t.Direction.BACKWARD, 2)
+
+-- Move from starting position to mining tunnel
+t.move(t.dir.BACKWARDS)
+t.move(t.dir.RIGHT, 9)
+t.move(t.dir.UP)
