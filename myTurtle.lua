@@ -46,6 +46,6 @@ function myTurtle.move(...)
 	end
 end
 
-myTurtle.Direction = Direction
+myTurtle.dir = Direction
 
 return myTurtle
