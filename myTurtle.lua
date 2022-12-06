@@ -86,6 +86,13 @@ function myTurtle.checkFuel(a)
 	return true
 end
 
+function myTurtle.digMove()
+	while not turtle.inspect() == nil do
+		turtle.dig()
+	end
+	turtle.forward()
+end
+
 --- Makes a player traversable tunnel, including torches.
 -- @param a Tunnel length 
 function myTurtle.playerTunnel(a)
@@ -93,8 +100,7 @@ function myTurtle.playerTunnel(a)
 		if not myTurtle.checkFuel(a) then
 			return
 		end
-		turtle.dig()
-		turtle.forward()
+		myTurtle.digMove()
 		turtle.digDown()
 		if i % 8 == 0 then
 			if myTurtle.findItem("torch") then
