@@ -22,19 +22,14 @@ function myTurtle.turn(a)
 end
 
 function moveWithNumber(a, b)
+	myTurtle.turn(a)
 	for i = 1, b do
 		if a == Direction.UP then
 			turtle.up()
-		elseif a == Direction.LEFT then
-			turtle.left()
-		elseif a == Direction.FORWARD then
-			turtle.forward()
-		elseif a == Direction.RIGHT then
-			turtle.right()
-		elseif a == Direction.BACKWARD then
-			turtle.backward()
 		elseif a == Direction.DOWN then
 			turtle.down()
+		else
+			turtle.forward()
 		end
 	end
 end
