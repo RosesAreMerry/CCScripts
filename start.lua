@@ -1,4 +1,3 @@
-
 -- Clone the repo to CCScripts (Could check version at some point)
 shell.run("github clone RosesAreMerry/CCScripts -b main")
 
