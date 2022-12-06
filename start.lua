@@ -11,7 +11,7 @@ shell.run("rename startup.lua oldstart.lua")
 shell.run("rename start.lua startup.lua")
 
 -- Enter program
-shell.run("scripts/entry")
+os.run("scripts/entry")
 
 -- Delete current file.
 shell.run("delete oldstart.lua")
