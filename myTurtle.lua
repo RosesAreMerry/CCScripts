@@ -88,7 +88,7 @@ end
 
 function myTurtle.digMove()
 	local success, data = turtle.inspect()
-	while not(data.name == "minecraft:air") do
+	while success do
 		turtle.dig()
 	end
 	turtle.forward()
