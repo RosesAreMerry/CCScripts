@@ -12,7 +12,7 @@ if t.checkTorches() then
 	t.playerTunnel(30)
 else
 	t.move(t.dir.right)
-	while not(t.blockAhead()) then
+	while not(t.blockAhead()) do
 		t.move(t.dir.forward)
 	end
 	t.mainHallway(30)
