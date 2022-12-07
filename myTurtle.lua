@@ -58,7 +58,7 @@ end
 
 function moveWithNumber(a, b)
 	myTurtle.turn(a)
-	moveWithoutTurning(a, b)
+	myTurtle.moveWithoutTurning(a, b)
 end
 
 function moveOnlyDirection(a)
@@ -142,7 +142,7 @@ function myTurtle.oreCheck()
 	for k, v in pairs( sur ) do
 		if v.tags["forge:ores"] == true then
 			myTurtle.dig(k)
-			myTurtle.moveWithoutTurning(k)
+			myTurtle.moveWithoutTurning(k, 1)
 			myTurtle.oreCheck()
 			myTurtle.unTurn(k)
 			myTurtle.move(dirOpposite(k))
