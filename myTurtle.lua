@@ -44,7 +44,7 @@ function myTurtle.unTurn(a)
 	end
 end
 
-function moveWithoutTurning(a, b)
+function myTurtle.moveWithoutTurning(a, b)
 	for i = 1, b do
 		if a == Direction.up then
 			turtle.up()
