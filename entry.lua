@@ -1,1 +1,1 @@
-dofile('scripts/turtleMain')
+shell.run('scripts/turtleMain')
