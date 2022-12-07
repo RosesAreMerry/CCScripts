@@ -181,7 +181,7 @@ function t.checkTorches()
 					return true
 				end
 			end
-			t.move(Direction.forward)
+			t.moveTurn(Direction.forward)
 			i = i + 1
 		end
 		t.moveTurn(Direction.right, 3)
@@ -249,10 +249,10 @@ function t.mainHallway(a)
 		t.turn(Direction.left)
 		t.digColumn()
 		t.turn(Direction.backward)
-		t.move(Direction.forward)
+		t.moveTurn(Direction.forward)
 		t.digColumn()
-		t.move(Direction.backward)
-		t.turn(Direction.right)
+		t.moveTurn(Direction.backward)
+		t.turn(Direction.left)
 	end
 end
 
