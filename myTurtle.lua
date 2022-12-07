@@ -87,7 +87,8 @@ function myTurtle.checkFuel(a)
 end
 
 function myTurtle.digMove()
-	while not(turtle.inspect().name == "minecraft:air") do
+	local success, data = turtle.inspect()
+	while not(data.name == "minecraft:air") do
 		turtle.dig()
 	end
 	turtle.forward()
