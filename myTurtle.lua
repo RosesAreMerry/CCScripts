@@ -1,4 +1,4 @@
-local myTurtle = {}
+local t = {}
 
 Direction = {
 	left = "left",
@@ -25,7 +25,7 @@ function dirOpposite(a)
 	end
 end
 
-function myTurtle.turn(a)
+function t.turn(a)
 	if a == Direction.left then
 		turtle.turnRight()
 	elseif a == Direction.right then
@@ -36,15 +36,23 @@ function myTurtle.turn(a)
 	end
 end
 
-function myTurtle.unTurn(a)
-	if a == Direction.left then
-		turtle.turnLeft()
-	elseif a == Direction.right then
-		turtle.turnRight()
+function t.move(a)
+	if Direction.left then
+		return turtle.left()
+	elseif Direction.right then
+		return turtle.right()
+	elseif Direction.down then
+		return turtle.down()
+	elseif Direction.up then
+		return turtle.up()
+	elseif Direction.backward then
+		return turtle.backward()
+	elseif Direction.forward then
+		return turtle.forward()
 	end
 end
 
-function myTurtle.moveWithoutTurning(a, b)
+function t.planarMove(a, b)
 	for i = 1, b do
 		if a == Direction.up then
 			turtle.up()
@@ -57,15 +65,15 @@ function myTurtle.moveWithoutTurning(a, b)
 end
 
 function moveWithNumber(a, b)
-	myTurtle.turn(a)
-	myTurtle.moveWithoutTurning(a, b)
+	t.turn(a)
+	t.planarMove(a, b)
 end
 
 function moveOnlyDirection(a)
 	moveWithNumber(a, 1)
 end
 
-function myTurtle.move(...)
+function t.moveTurn(...)
 	if arg[2] == nil then
 		moveOnlyDirection(arg[1])
 	else
@@ -73,18 +81,18 @@ function myTurtle.move(...)
 	end
 end
 
-function myTurtle.dig(a)
+function t.dig(a)
 	if a == Direction.up then
 		turtle.digUp()
 	elseif a == Direction.down then
 		turtle.digDown()
 	else
-		myTurtle.turn(a)
+		t.turn(a)
 		turtle.dig()
 	end
 end
 
-function myTurtle.findItem(a)
+function t.findItem(a)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
@@ -95,7 +103,18 @@ function myTurtle.findItem(a)
 	return true
 end
 
-function myTurtle.findEmpty()
+function t.findItemByTag(a)
+	for i = 1, 16 do
+		turtle.select(i)
+		item = turtle.getItemDetail()
+		if not(item == nil) and item.tags[a] == true then
+			return true
+		end
+	end
+	return true
+end
+
+function t.findEmpty()
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
@@ -106,16 +125,16 @@ function myTurtle.findEmpty()
 	return false
 end
 
-function myTurtle.fuel()
-	myTurtle.findItem("coal")
+function t.fuel()
+	t.findItem("coal")
 	return turtle.refuel()
 end
 
-function myTurtle.checkFuel(a)
+function t.checkFuel(a)
 	level = turtle.getFuelLevel()
 	if (a + 50) >= level then
-		if myTurtle.fuel() then
-			return myTurtle.checkFuel(a)
+		if t.fuel() then
+			return t.checkFuel(a)
 		else
 			return false
 		end
@@ -123,36 +142,71 @@ function myTurtle.checkFuel(a)
 	return true
 end
 
-function myTurtle.look()
+function t.look()
 	local surroundings = {}
 
 	success, surroundings[Direction.forward] = turtle.inspect()
-	myTurtle.turn(Direction.right)
+	t.turn(Direction.right)
 	success, surroundings[Direction.right] = turtle.inspect()
-	myTurtle.turn(Direction.backward)
+	t.turn(Direction.backward)
 	success, surroundings[Direction.left] = turtle.inspect()
-	myTurtle.turn(Direction.right)
+	t.turn(Direction.right)
 	success, surroundings[Direction.down] = turtle.inspectDown()
 	success, surroundings[Direction.up] = turtle.inspectUp()
 	return surroundings
 end
 
-function myTurtle.oreCheck()
-	local sur = myTurtle.look()
+function t.blockAhead()
+	success, data = turtle.inspect()
+	return success
+end
+
+function t.checkTorches()
+	local i = 0
+	for j = 1, 2 do
+		while not(t.blockAhead()) do
+			if not(t.checkFuel(i)) then
+				if j == 1 then
+					t.turnMove(Direction.backward, i)
+					t.turn(Direction.backward)
+				else
+					t.turnMove(Direction.forward, i)
+					t.turn(Direction.backward)
+				end
+			end
+
+			if i % 5 == 0 then
+				success, data = turtle.inspectDown()
+				if not(data.name == "minecraft:torch") then
+					return true
+				end
+			end
+			t.move(Direction.forward)
+			i = i + 1
+		end
+		t.turnMove(Direction.right, 3)
+		t.turn(Direction.right)
+	end
+	return false
+end
+	
+
+function t.oreCheck()
+	local sur = t.look()
 	for k, v in pairs( sur ) do
 		if not(v.tags == nil) and v.tags["forge:ores"] == true then
-			myTurtle.dig(k)
-			myTurtle.moveWithoutTurning(k, 1)
-			myTurtle.oreCheck()
-			myTurtle.unTurn(k)
-			myTurtle.move(dirOpposite(k))
-			myTurtle.turn(k)
+			t.dig(k)
+			t.planarMove(k, 1)
+			t.oreCheck()
+			t.turn(dirOpposite(k))
+			t.moveTurn(dirOpposite(k))
+			t.turn(k)
 		end
 	end
 end
 
 
-function myTurtle.digMove()
+function t.digMove()
 	local success, data = turtle.inspect()
 	while success do
 		turtle.dig()
@@ -163,25 +217,45 @@ end
 
 --- Makes a player traversable tunnel, including torches.
 -- @param a Tunnel length 
-function myTurtle.playerTunnel(a)
+function t.playerTunnel(a)
 	for i = 1, a do
-		if not(myTurtle.checkFuel(a)) then
+		if not(t.checkFuel(a)) then
 			return
 		end
-		myTurtle.digMove()
-		myTurtle.oreCheck()
-		myTurtle.dig(Direction.down)
-		myTurtle.move(Direction.down)
-		myTurtle.oreCheck()
-		myTurtle.move(Direction.up)
-		if i % 8 == 0 then
-			if myTurtle.findItem("torch") then
+		t.digMove()
+		t.oreCheck()
+		t.dig(Direction.down)
+		t.moveTurn(Direction.down)
+		t.oreCheck()
+		t.moveTurn(Direction.up)
+		if i % 8 == 1 then
+			if t.findItem("torch") then
 				turtle.placeDown()
 			end
 		end
 	end
+end  
+
+function t.digColumn()
+	t.dig(Direction.forward)
+	t.moveTurn(Direction.forward)
+	t.dig(Direction.down)
+	t.dig(Direction.up)
 end
 
-myTurtle.dir = Direction
+function t.mainHallway(a)
+	for i = 1, a do
+		t.digColumn()
+		t.turn(Direction.left)
+		t.digColumn()
+		t.turn(Direction.backward)
+		t.move(Direction.forward)
+		t.digColumn()
+		t.move(Direction.backward)
+		t.turn(Direction.right)
+	end
+end
 
-return myTurtle
+t.dir = Direction
+
+return t
