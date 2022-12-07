@@ -1,3 +1,3 @@
-f = loadfile('scripts/turtleMain.lua')
+f = loadfile('scripts/turtleMain')
 setfenv( f, getfenv() )
 f(...)
