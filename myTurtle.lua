@@ -140,7 +140,7 @@ end
 function myTurtle.oreCheck()
 	local sur = myTurtle.look()
 	for k, v in pairs( sur ) do
-		if not v.tags == nil and v.tags["forge:ores"] == true then
+		if not(v.tags == nil) and v.tags["forge:ores"] == true then
 			myTurtle.dig(k)
 			myTurtle.moveWithoutTurning(k, 1)
 			myTurtle.oreCheck()
@@ -164,7 +164,7 @@ end
 -- @param a Tunnel length 
 function myTurtle.playerTunnel(a)
 	for i = 1, a do
-		if not myTurtle.checkFuel(a) then
+		if not(myTurtle.checkFuel(a)) then
 			return
 		end
 		myTurtle.digMove()
