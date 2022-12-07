@@ -41,6 +41,7 @@ function myTurtle.unTurn(a)
 		turtle.turnLeft()
 	elseif a == Direction.right then
 		turtle.turnRight()
+	end
 end
 
 function moveWithoutTurning(a, b)
