@@ -146,6 +146,7 @@ function myTurtle.oreCheck()
 			myTurtle.oreCheck()
 			myTurtle.unTurn(k)
 			myTurtle.move(dirOpposite(k))
+			myTurtle.turn(k)
 		end
 	end
 end
