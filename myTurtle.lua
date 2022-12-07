@@ -90,9 +90,10 @@ function myTurtle.digMove()
 	local success, data = turtle.inspect()
 	while success do
 		turtle.dig()
-		print( "here" )
-		success = turtle.inspect()
+		print( "inside loop" )
+		success, data = turtle.inspect()
 	end
+	print( "outside" )
 	turtle.forward()
 end
 
