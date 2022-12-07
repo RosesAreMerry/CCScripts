@@ -172,6 +172,7 @@ function myTurtle.playerTunnel(a)
 		myTurtle.dig(Direction.down)
 		myTurtle.move(Direction.down)
 		myTurtle.oreCheck()
+		myTurtle.move(Direction.up)
 		if i % 8 == 0 then
 			if myTurtle.findItem("torch") then
 				turtle.placeDown()
