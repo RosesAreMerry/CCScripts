@@ -140,7 +140,7 @@ end
 function myTurtle.oreCheck()
 	local sur = myTurtle.look()
 	for k, v in pairs( sur ) do
-		if v.state["forge:ores"] == true then
+		if v.tags["forge:ores"] == true then
 			myTurtle.dig(k)
 			myTurtle.moveWithoutTurning(k)
 			myTurtle.oreCheck()
