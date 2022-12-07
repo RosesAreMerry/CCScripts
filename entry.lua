@@ -1,1 +1,3 @@
-os.run(_G, "scripts/turtleMain.lua")
+f = loadfile('scripts/turtleMain.lua')
+setfenv( f, getfenv() )
+f(...)
