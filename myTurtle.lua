@@ -1,28 +1,35 @@
 local t = {}
 
 Direction = {
-	left = "left",
-	forward = "forward",
-	right = "right",
-	backward = "backward",
-	up = "up",
-	down = "down",
+	forward = 1,
+	backward = -1,
+	left = 2,
+	right = -2,
+	up = 3,
+	down = -3,
 }
 
+relativeLocation = {x = 0, y = 0, z = 0}
+
+facingDirection = Direction.forward
+
+function Direction.applyTurn(a)
+  if (a == Direction.up or a == Direction.down) then
+    return
+  end
+  
+  result = facingDirection * a
+  if result > 3 then
+    result = -(result % 3)
+  end
+end
+  
+  
+
+
+
 function dirOpposite(a)
-	if Direction.left then
-		return Direction.right
-	elseif Direction.right then
-		return Direction.left
-	elseif Direction.down then
-		return Direction.up
-	elseif Direction.up then
-		return Direction.down
-	elseif Direction.backward then
-		return Direction.forward
-	elseif Direction.forward then
-		return Direction.backward
-	end
+	return -a
 end
 
 function t.turn(a)
@@ -36,32 +43,24 @@ function t.turn(a)
 	end
 end
 
-function t.move(a)
-	if Direction.left then
-		return turtle.left()
-	elseif Direction.right then
-		return turtle.right()
-	elseif Direction.down then
-		return turtle.down()
-	elseif Direction.up then
-		return turtle.up()
-	elseif Direction.backward then
-		return turtle.backward()
-	elseif Direction.forward then
-		return turtle.forward()
-	end
-end
-
 function t.planarMove(a, b)
+  moves = 0
 	for i = 1, b do
 		if a == Direction.up then
-			turtle.up()
+			if turtle.up() then
+			  moves = moves + 1
+			end
 		elseif a == Direction.down then
-			turtle.down()
-		else
-			turtle.forward()
+			if turtle.down() then
+			  moves = moves + 1
+			end
+		elseif a == Direction.forward then
+			if turtle.forward() then
+		    moves = moves + 1
+			end
 		end
 	end
+  return moves
 end
 
 function moveWithNumber(a, b)
@@ -79,6 +78,11 @@ function t.moveTurn(...)
 	else
 		moveWithNumber(arg[1], arg[2])
 	end
+end
+
+function t.move(...)
+  t.moveTurn(arg)
+  t.turn(-arg[1])
 end
 
 function t.dig(a)
