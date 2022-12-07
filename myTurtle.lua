@@ -76,7 +76,7 @@ end
 
 function myTurtle.checkFuel(a)
 	level = turtle.getFuelLevel()
-	if ((a / 2) - 50) >= level then
+	if ((a + 50) >= level then
 		if myTurtle.fuel() then
 			return false
 		else
@@ -90,10 +90,8 @@ function myTurtle.digMove()
 	local success, data = turtle.inspect()
 	while success do
 		turtle.dig()
-		print( "inside loop" )
 		success, data = turtle.inspect()
 	end
-	print( "outside" )
 	turtle.forward()
 end
 
