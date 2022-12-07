@@ -132,8 +132,8 @@ function myTurtle.look()
 	myTurtle.turn(Direction.backward)
 	success, surroundings[Direction.left] = turtle.inspect()
 	myTurtle.turn(Direction.right)
-	surroundings[Direction.down] = turtle.inspectDown()
-	surroundings[Direction.up] = turtle.inspectUp()
+	success, surroundings[Direction.down] = turtle.inspectDown()
+	success, surroundings[Direction.up] = turtle.inspectUp()
 	return surroundings
 end
 
