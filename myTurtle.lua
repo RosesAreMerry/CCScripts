@@ -252,7 +252,7 @@ function t.mainHallway(a)
 		t.moveTurn(Direction.forward)
 		t.digColumn()
 		t.moveTurn(Direction.backward)
-		t.turn(Direction.left)
+		t.turn(Direction.right)
 	end
 end
 
