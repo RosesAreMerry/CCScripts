@@ -1,38 +1,63 @@
 local myTurtle = {}
 
 Direction = {
-	LEFT = 0,
-	FORWARD = 1,
-	RIGHT = 2,
-	BACKWARD = 3,
-	UP = 4,
-	DOWN = 5,
+	left = "left",
+	forward = "forward",
+	right = "right",
+	backward = "backward",
+	up = "up",
+	down = "down",
 }
 
+function dirOpposite(a)
+	if Direction.left then
+		return Direction.right
+	elseif Direction.right then
+		return Direction.left
+	elseif Direction.down then
+		return Direction.up
+	elseif Direction.up then
+		return Direction.down
+	elseif Direction.backward then
+		return Direction.forward
+	elseif Direction.forward then
+		return Direction.backward
+	end
+end
 
 function myTurtle.turn(a)
-		shell.run("label set ", a)
-	if a == Direction.LEFT then
+	if a == Direction.left then
 		turtle.turnRight()
-	elseif a == Direction.RIGHT then
+	elseif a == Direction.right then
 		turtle.turnLeft()
-	elseif a == Direction.BACKWARD then
+	elseif a == Direction.backward then
 		turtle.turnRight()
 		turtle.turnRight()
 	end
 end
 
-function moveWithNumber(a, b)
-	myTurtle.turn(a)
+function myTurtle.unTurn(a)
+	if a == Direction.left then
+		turtle.turnLeft()
+	elseif a == Direction.right then
+		turtle.turnRight()
+end
+
+function moveWithoutTurning(a, b)
 	for i = 1, b do
-		if a == Direction.UP then
+		if a == Direction.up then
 			turtle.up()
-		elseif a == Direction.DOWN then
+		elseif a == Direction.down then
 			turtle.down()
 		else
 			turtle.forward()
 		end
 	end
+end
+
+function moveWithNumber(a, b)
+	myTurtle.turn(a)
+	moveWithoutTurning(a, b)
 end
 
 function moveOnlyDirection(a)
@@ -44,6 +69,17 @@ function myTurtle.move(...)
 		moveOnlyDirection(arg[1])
 	else
 		moveWithNumber(arg[1], arg[2])
+	end
+end
+
+function myTurtle.dig(a)
+	if a == Direction.up then
+		turtle.digUp()
+	elseif a == Direction.down then
+		turtle.digDown()
+	else
+		myTurtle.turn(a)
+		turtle.dig()
 	end
 end
 
@@ -78,13 +114,41 @@ function myTurtle.checkFuel(a)
 	level = turtle.getFuelLevel()
 	if (a + 50) >= level then
 		if myTurtle.fuel() then
-			return false
+			return myTurtle.checkFuel(a)
 		else
 			return false
 		end
 	end
 	return true
 end
+
+function myTurtle.look()
+	local surroundings = {}
+
+	success, surroundings[Direction.forward] = turtle.inspect()
+	myTurtle.turn(Direction.right)
+	success, surroundings[Direction.right] = turtle.inspect()
+	myTurtle.turn(Direction.backward)
+	success, surroundings[Direction.left] = turtle.inspect()
+	myTurtle.turn(Direction.right)
+	surroundings[Direction.down] = turtle.inspectDown()
+	surroundings[Direction.up] = turtle.inspectUp()
+	return surroundings
+end
+
+function myTurtle.oreCheck()
+	local sur = myTurtle.look()
+	for k, v in pairs( sur ) do
+		if v.state["forge:ores"] == true then
+			myTurtle.dig(k)
+			myTurtle.moveWithoutTurning(k)
+			myTurtle.oreCheck()
+			myTurtle.unTurn(k)
+			myTurtle.move(dirOpposite(k))
+		end
+	end
+end
+
 
 function myTurtle.digMove()
 	local success, data = turtle.inspect()
