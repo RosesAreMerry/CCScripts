@@ -74,6 +74,7 @@ end
 
 function t.move(...)
   t.moveTurn(arg[1], arg[2])
+  print("here")
   t.turn(-(arg[1]))
 end
 
