@@ -72,13 +72,19 @@ function t.moveTurn(...)
 	end
 end
 
+function t.unTurn(a)
+	if (a == Direction.backward) then
+		t.turn(a)
+	elseif (a == Direction.forward) then
+		return
+	else
+		t.turn(-a)
+	end
+end
+
 function t.move(...)
   t.moveTurn(arg[1], arg[2])
-  if (arg[1] == Direction.backward) then
-  	t.turn(Direction.backward)
-  else
-  	t.turn(-(arg[1]))
-  end
+  t.unTurn(a)
 end
 
 function t.dig(a)
