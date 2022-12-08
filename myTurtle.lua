@@ -23,14 +23,6 @@ function Direction.applyTurn(a)
     result = -(result % 3)
   end
 end
-  
-  
-
-
-
-function dirOpposite(a)
-	return -a
-end
 
 function t.turn(a)
 	if a == Direction.left then
@@ -202,8 +194,8 @@ function t.oreCheck()
 			t.dig(k)
 			t.planarMove(k, 1)
 			t.oreCheck()
-			t.turn(dirOpposite(k))
-			t.moveTurn(dirOpposite(k))
+			t.turn(-k)
+			t.moveTurn(-k)
 			t.turn(k)
 		end
 	end
@@ -253,7 +245,7 @@ function t.mainHallway(a)
 		t.turn(Direction.left)
 		t.digColumn()
 		t.turn(Direction.backward)
-		t.moveTurn(Direction.forward)
+		t.moveTurn(Direction.forward, 2)
 		t.digColumn()
 		t.moveTurn(Direction.backward)
 		t.turn(Direction.right)
