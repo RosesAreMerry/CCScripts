@@ -169,9 +169,13 @@ end
 
 function t.checkTorches()
 	local i = 0
+	print("outside loop")
 	for j = 1, 2 do
+		print("inside loop " + j)
 		while not(t.blockAhead()) do
+			print("inside while " + i)
 			if not(t.checkFuel(i)) then
+				print("inside checkFuel")
 				t.move(Direction.forward)
 			end
 

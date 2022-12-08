@@ -11,6 +11,7 @@ else
 	t.turn(t.dir.left)
 end
 
+print("outside checkTorches")
 if t.checkTorches() then
 	t.turn(t.dir.left)
 	t.playerTunnel(30)
