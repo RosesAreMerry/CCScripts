@@ -74,7 +74,7 @@ end
 
 function t.move(...)
   t.moveTurn(arg[1], arg[2])
-  t.turn(-arg[1])
+  t.turn(-(arg[1]))
 end
 
 function t.dig(a)
