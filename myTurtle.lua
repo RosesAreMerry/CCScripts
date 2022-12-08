@@ -174,10 +174,16 @@ function t.checkTorches()
 		print("inside loop " .. j)
 		while not(t.blockAhead()) do
 			print("inside while " .. i)
-			
+
 			if i % 5 == 0 then
 				success, data = turtle.inspectDown()
 				if not(data.name == "minecraft:torch") then
+					if j == 1 then
+						t.turn(Direction.left)
+					else
+						t.turn(Direction.right)
+					end
+
 					return true
 				end
 			end
@@ -189,7 +195,7 @@ function t.checkTorches()
 
 			i = i + 1
 		end
-		t.moveTurn(Direction.right, 3)
+		t.moveTurn(Direction.right, 2)
 		t.turn(Direction.right)
 	end
 	t.moveTurn(Direction.right)

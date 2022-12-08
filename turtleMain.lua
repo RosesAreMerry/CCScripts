@@ -12,13 +12,16 @@ else
 end
 
 print("outside checkTorches")
-if t.checkTorches() then
-	t.turn(t.dir.left)
-	t.playerTunnel(30)
-else
-	t.move(t.dir.right)
-	while not(t.blockAhead()) do
-		t.move(t.dir.forward)
+while running do
+	if t.checkTorches() then
+		t.playerTunnel(30)
+		t.moveTurn(t.dir.backward, 30)
+		t.turn(t.dir.left)
+	else
+		t.move(t.dir.right)
+		while not(t.blockAhead()) do
+			t.move(t.dir.forward)
+		end
+		t.mainHallway(30)
 	end
-	t.mainHallway(30)
 end
