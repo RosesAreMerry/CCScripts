@@ -74,8 +74,11 @@ end
 
 function t.move(...)
   t.moveTurn(arg[1], arg[2])
-  print("here")
-  t.turn(-(arg[1]))
+  if (arg[1] == Direction.backward) then
+  	t.turn(Direction.backward)
+  else
+  	t.turn(-(arg[1]))
+  end
 end
 
 function t.dig(a)
