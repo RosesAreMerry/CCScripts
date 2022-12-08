@@ -26,9 +26,9 @@ end
 
 function t.turn(a)
 	if a == Direction.left then
-		turtle.turnRight()
-	elseif a == Direction.right then
 		turtle.turnLeft()
+	elseif a == Direction.right then
+		turtle.turnRight()
 	elseif a == Direction.backward then
 		turtle.turnRight()
 		turtle.turnRight()
@@ -46,7 +46,7 @@ function t.planarMove(a, b)
 			if turtle.down() then
 			  moves = moves + 1
 			end
-		elseif a == Direction.forward then
+		else
 			if turtle.forward() then
 		    moves = moves + 1
 			end
