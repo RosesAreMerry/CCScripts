@@ -16,6 +16,7 @@ end
 print("outside checkTorches")
 while running do
 	if t.checkTorches() then
+		t.turn(Direction.left)
 		t.playerTunnel(30)
 		t.moveTurn(t.dir.backward, 30)
 		t.turn(t.dir.left)

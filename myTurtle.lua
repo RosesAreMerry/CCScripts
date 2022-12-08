@@ -178,12 +178,6 @@ function t.checkTorches()
 			if i % 5 == 0 then
 				success, data = turtle.inspectDown()
 				if not(data.name == "minecraft:torch") then
-					if j == 1 then
-						t.turn(Direction.left)
-					else
-						t.turn(Direction.right)
-					end
-
 					return true
 				end
 			end
