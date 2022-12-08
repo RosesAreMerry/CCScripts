@@ -1,5 +1,7 @@
 local t = require( "myTurtle" )
 
+running = true
+
 -- Move from starting position to mining tunnel
 t.checkFuel(100)
 if not(t.blockAhead()) then
