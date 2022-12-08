@@ -7,6 +7,8 @@ if not(t.blockAhead()) then
 	t.move(t.dir.left)
 else
 	t.mainHallway(30)
+	t.moveTurn(t.dir.left)
+	t.turn(t.dir.left)
 end
 
 if t.checkTorches() then
