@@ -191,27 +191,12 @@ function t.checkTorches()
 		end
 		t.moveTurn(Direction.right, 2)
 		t.turn(Direction.right)
+		i = 0
 	end
 	t.moveTurn(Direction.right)
 	t.turn(Direction.right)
 	return false
 end
-	
-
-function t.oreCheck()
-	local sur = t.look()
-	for k, v in pairs( sur ) do
-		if not(v.tags == nil) and v.tags["forge:ores"] == true then
-			t.dig(k)
-			t.planarMove(k, 1)
-			t.oreCheck()
-			t.turn(-k)
-			t.moveTurn(-k)
-			t.turn(k)
-		end
-	end
-end
-
 
 function t.digMove()
 	local success, data = turtle.inspect()
@@ -220,6 +205,19 @@ function t.digMove()
 		success, data = turtle.inspect()
 	end
 	turtle.forward()
+end
+
+function t.oreCheck()
+	local sur = t.look()
+	for k, v in pairs( sur ) do
+		if not(v.tags == nil) and v.tags["forge:ores"] == true then
+			t.turn(k)
+			t.digMove()
+			t.oreCheck()
+			t.move(Direction.backward)
+			t.unTurn(k)
+		end
+	end
 end
 
 --- Makes a player traversable tunnel, including torches.
@@ -251,7 +249,7 @@ function t.digColumn()
 end
 
 function t.mainHallway(a)
-	for i = 1, a do
+	for i = 0, a do
 		t.digColumn()
 		t.turn(Direction.left)
 		t.digColumn()
