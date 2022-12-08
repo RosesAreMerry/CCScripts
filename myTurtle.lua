@@ -223,17 +223,17 @@ function t.playerTunnel(a)
 		if not(t.checkFuel(a)) then
 			return
 		end
+		if i % 8 == 1 then
+			if t.findItem("torch") then
+				turtle.placeDown()
+			end
+		end
 		t.digMove()
 		t.oreCheck()
 		t.dig(Direction.down)
 		t.moveTurn(Direction.down)
 		t.oreCheck()
 		t.moveTurn(Direction.up)
-		if i % 8 == 1 then
-			if t.findItem("torch") then
-				turtle.placeDown()
-			end
-		end
 	end
 end  
 
