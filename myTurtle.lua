@@ -84,7 +84,7 @@ end
 
 function t.move(...)
   t.moveTurn(arg[1], arg[2])
-  t.unTurn(a)
+  t.unTurn(arg[1])
 end
 
 function t.dig(a)
