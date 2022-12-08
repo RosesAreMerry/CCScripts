@@ -167,6 +167,14 @@ function t.blockAhead()
 	return success
 end
 
+function checkTorch()
+	success, data = turtle.inspectDown()
+	if not(data.name == "minecraft:torch") then
+		return true
+	end
+	return false
+end
+
 function t.checkTorches()
 	local i = 0
 	print("outside loop")
@@ -176,8 +184,7 @@ function t.checkTorches()
 			print("inside while " .. i)
 
 			if i % 5 == 0 then
-				success, data = turtle.inspectDown()
-				if not(data.name == "minecraft:torch") then
+				if checkTorch() then
 					return true
 				end
 			end
@@ -189,6 +196,11 @@ function t.checkTorches()
 
 			i = i + 1
 		end
+
+		if checkTorch() then
+			return true
+		end
+				
 		t.moveTurn(Direction.right, 2)
 		t.turn(Direction.right)
 		i = 0
