@@ -166,13 +166,7 @@ function t.checkTorches()
 	for j = 1, 2 do
 		while not(t.blockAhead()) do
 			if not(t.checkFuel(i)) then
-				if j == 1 then
-					t.moveTurn(Direction.backward, 1)
-					t.turn(Direction.backward)
-				else
-					t.moveTurn(Direction.forward, 1)
-					t.turn(Direction.backward)
-				end
+				t.move(Direction.forward)
 			end
 
 			if i % 5 == 0 then
@@ -181,12 +175,13 @@ function t.checkTorches()
 					return true
 				end
 			end
-			t.moveTurn(Direction.forward)
 			i = i + 1
 		end
 		t.moveTurn(Direction.right, 3)
 		t.turn(Direction.right)
 	end
+	t.moveTurn(Direction.right)
+	t.turn(Direction.right)
 	return false
 end
 	
