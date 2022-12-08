@@ -73,7 +73,7 @@ function t.moveTurn(...)
 end
 
 function t.move(...)
-  t.moveTurn(arg)
+  t.moveTurn(arg[1], arg[2])
   t.turn(-arg[1])
 end
 
@@ -163,10 +163,10 @@ function t.checkTorches()
 		while not(t.blockAhead()) do
 			if not(t.checkFuel(i)) then
 				if j == 1 then
-					t.moveTurn(Direction.backward, i)
+					t.moveTurn(Direction.backward, 1)
 					t.turn(Direction.backward)
 				else
-					t.moveTurn(Direction.forward, i)
+					t.moveTurn(Direction.forward, 1)
 					t.turn(Direction.backward)
 				end
 			end
