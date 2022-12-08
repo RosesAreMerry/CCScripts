@@ -174,7 +174,7 @@ function t.checkTorches()
 		print("inside loop " .. j)
 		while not(t.blockAhead()) do
 			print("inside while " .. i)
-			if not(t.checkFuel(i)) then
+			if t.checkFuel(i) then
 				print("inside checkFuel")
 				t.move(Direction.forward)
 			end
