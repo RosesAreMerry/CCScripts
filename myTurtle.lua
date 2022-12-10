@@ -1,9 +1,5 @@
 local t = {}
 
-for _,v in ipairs(turtle) do
-   table.insert(t, v)
-end
-
 Direction = {
 	forward = 1,
 	backward = -1,
@@ -264,22 +260,22 @@ function t.mainHallway(a)
 		t.findItem("cobblestone")
 		t.digMove(Direction.forward)
 		t.digMove(Direction.down)
-		t.placeDown()
+		turtle.placeDown()
 		t.digMove(Direction.right)
-		t.placeDown()
-		t.place()
+		turtle.placeDown()
+		turtle.place()
 		t.digMove(Direction.up)
-		t.place()
+		turtle.place()
 		t.digMove(Direction.up)
-		t.place()
-		t.placeUp()
+		turtle.place()
+		turtle.placeUp()
 		t.digMove(Direction.backward)
-		t.placeUp()
+		turtle.placeUp()
 		t.digMove(Direction.forward)
-		t.placeUp()
-		t.place()
+		turtle.placeUp()
+		turtle.place()
 		t.digMove(Direction.down)
-		t.place()
+		turtle.place()
 		t.digMove(Direction.backward)
 		t.turn(Direction.left)
 	end
