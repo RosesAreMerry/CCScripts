@@ -210,7 +210,11 @@ function t.checkTorches()
 	return false
 end
 
-function t.digMove()
+function t.digMove(a)
+	if (a == nil) then
+		a = Direction.forward
+	end
+	t.turn(a)
 	local success, data = turtle.inspect()
 	while success do
 		turtle.dig()
@@ -253,23 +257,38 @@ function t.playerTunnel(a)
 	end
 end  
 
-function t.digColumn()
+function t.digColumn(a)
 	t.dig(Direction.forward)
 	t.moveTurn(Direction.forward)
+	t.findItemByTag("forge:cobblestone")
+	t.place()
 	t.dig(Direction.down)
 	t.dig(Direction.up)
 end
 
 function t.mainHallway(a)
 	for i = 0, a do
-		t.digColumn()
+		t.findItemByTag("forge:cobblestone")
+		t.digMove(Direction.forward)
+		t.digMove(Direction.down)
+		t.placeDown()
+		t.digMove(Direction.right)
+		t.placeDown()
+		t.place()
+		t.digMove(Direction.up)
+		t.place()
+		t.digMove(Direction.up)
+		t.place()
+		t.placeUp()
+		t.digMove(Direction.backward)
+		t.placeUp()
+		t.digMove(Direction.forward)
+		t.placeUp()
+		t.place()
+		t.digMove(Direction.down)
+		t.place()
+		t.digMove(Direction.backward)
 		t.turn(Direction.left)
-		t.digColumn()
-		t.turn(Direction.backward)
-		t.moveTurn(Direction.forward, 2)
-		t.digColumn()
-		t.moveTurn(Direction.backward)
-		t.turn(Direction.right)
 	end
 end
 
