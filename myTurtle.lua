@@ -109,17 +109,6 @@ function t.findItem(a)
 	return true
 end
 
-function t.findItemByTag(a)
-	for i = 1, 16 do
-		turtle.select(i)
-		item = turtle.getItemDetail()
-		if not(item.tags == nil) and item.tags[a] == true then
-			return true
-		end
-	end
-	return true
-end
-
 function t.findEmpty()
 	for i = 1, 16 do
 		turtle.select(i)
@@ -268,7 +257,7 @@ end
 
 function t.mainHallway(a)
 	for i = 0, a do
-		t.findItemByTag("forge:cobblestone")
+		t.findItem("minecraft:cobblestone")
 		t.digMove(Direction.forward)
 		t.digMove(Direction.down)
 		t.placeDown()
