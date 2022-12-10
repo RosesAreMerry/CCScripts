@@ -199,6 +199,16 @@ function t.checkTorches()
 	return false
 end
 
+function dig(a)
+	if (a == Direction.up) then
+		turtle.digUp()
+	elseif (a == Direction.down) then
+		turtle.digUp()
+	else
+		turtle.dig()
+	end
+end
+
 function t.digMove(a)
 	if (a == nil) then
 		a = Direction.forward
@@ -206,7 +216,7 @@ function t.digMove(a)
 	t.turn(a)
 	local success, data = turtle.inspect()
 	while success do
-		turtle.dig()
+		t.dig(a)
 		success, data = turtle.inspect()
 	end
 	t.planarMove(a, 1)
