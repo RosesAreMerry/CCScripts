@@ -220,7 +220,7 @@ function t.digMove(a)
 		turtle.dig()
 		success, data = turtle.inspect()
 	end
-	t.planarMove(a)
+	t.planarMove(a, 1)
 end
 
 function t.oreCheck()
