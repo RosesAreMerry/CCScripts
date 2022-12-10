@@ -302,7 +302,7 @@ function t.mainHallway(a)
 		t.move(Direction.backward)
 		t.dig(Direction.up)
 		t.move(Direction.up)
-		t.turn(Direction.left)
+		t.turn(Direction.right)
 	end
 end
 
