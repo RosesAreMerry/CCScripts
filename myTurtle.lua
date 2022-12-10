@@ -113,7 +113,7 @@ function t.findItemByTag(a)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
-		if not(item == nil) and item.tags[a] == true then
+		if not(item.tags == nil) and item.tags[a] == true then
 			return true
 		end
 	end
