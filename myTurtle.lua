@@ -294,4 +294,8 @@ end
 
 t.dir = Direction
 
+for _,v in ipairs(turtle) do
+   table.insert(t1, v)
+end
+
 return t
