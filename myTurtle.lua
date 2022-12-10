@@ -131,6 +131,7 @@ function t.checkFuel(a)
 		if t.fuel() then
 			return t.checkFuel(a)
 		else
+			print("Out of Fuel!!!")
 			return false
 		end
 	end
