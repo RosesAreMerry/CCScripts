@@ -228,6 +228,18 @@ function dig(a)
 	end
 end
 
+--- Detects in a specific direction. Does not turn.
+--- @param direction Direction
+function t.detect(direction)
+	if direction == Direction.up then
+		return turtle.detectUp()
+	elseif direction == Direction.down then
+		return turtle.detectUp()
+	else
+		return turtle.forward()
+	end
+end
+
 --- Digs in a direction, checking to see if the dig was successful (there is no more block in the way),
 --- then moves in that direction. Does not preserve facing direction.
 --- @overload fun()
