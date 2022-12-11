@@ -235,10 +235,8 @@ end
 function t.digMove(direction)
 	if (direction == nil) then direction = Direction.forward end
 	t.turn(direction)
-	local success, data = turtle.inspect()
-	while success do
+	while turtle.detect() do
 		t.dig(direction:forwardOrVertical())
-		success, data = turtle.inspect()
 	end
 	t.planarMove(direction, 1)
 end
