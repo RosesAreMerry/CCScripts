@@ -1,7 +1,7 @@
 ---@class MyTurtle
 local t = {}
 
-require("Direction")
+require("scripts/Direction")
 
 --- Wrapper for turtle.turn functions using Direction class. It will only work for directions
 --- that can be turned to; left, right, and backward.
