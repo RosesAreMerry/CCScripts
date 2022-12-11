@@ -236,7 +236,7 @@ function t.detect(direction)
 	elseif direction == Direction.down then
 		return turtle.detectUp()
 	else
-		return turtle.forward()
+		return turtle.detect()
 	end
 end
 
