@@ -4,7 +4,7 @@ running = true
 
 -- Move from starting position to mining tunnel
 if (t.checkFuel(100)) then
-	if not(t.blockAhead()) then
+	if not(turtle.detect()) then
 		t.move(t.dir.forward)
 		t.move(t.dir.left)
 	else

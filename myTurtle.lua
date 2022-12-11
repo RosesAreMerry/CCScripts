@@ -176,11 +176,6 @@ function t.look()
 	return surroundings
 end
 
-function t.blockAhead()
-	turtle.detect()
-	return success
-end
-
 --- returns whether or not the block below the turtle is a torch
 function checkTorch()
 	local success, data = inspect(Direction.down)
@@ -199,7 +194,7 @@ function t.checkTorches()
 	print("outside loop")
 	for j = 1, 2 do
 		print("inside loop " .. j)
-		while not(t.blockAhead()) do
+		while not(turtle.detect()) do
 			print("inside while " .. i)
 
 			if i % 5 == 0 then
