@@ -139,7 +139,7 @@ function t.checkFuel(a)
 end
 
 --- @return boolean, blockData
-function inspect(direction)
+local function inspect(direction)
 	local success, data
 	if direction == Direction.up then
 		success, data = turtle.inspectUp()
@@ -150,8 +150,10 @@ function inspect(direction)
 	end
 	if not success then
 		return false, {name = nil,
-		state = nil,
-		tags = nil}
+		               state = nil,
+		               tags = nil}
+	else
+		return success, data
 	end
 end
 
