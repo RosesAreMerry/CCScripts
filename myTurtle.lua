@@ -294,7 +294,7 @@ end
 
 function t.mainHallway(a)
 	for i = 0, a do
-		if (i % 8 == 0) then
+		if true then
 			t.placeTorch()
 		end
 		t.findItem("cobblestone")
