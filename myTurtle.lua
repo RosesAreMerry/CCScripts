@@ -77,10 +77,11 @@ function t.unTurn(direction)
 end
 
 --- Move while respecting facing direction
+--- @overload fun(direction: Direction)
 --- @param direction Direction
---- @vararg number
-function t.move(direction, ...)
-	t.moveTurn(direction, select(1, ...))
+--- @param number number
+function t.move(direction, number)
+	t.moveTurn(direction, number)
 	t.unTurn(direction)
 end
 
@@ -187,7 +188,7 @@ function t.checkTorches()
 	local i = 0
 	print("outside loop")
 	for j = 1, 2 do
-		print("inside loop " .. j)
+		print("inside loop " .. j .. "  " .. turtle.inspect())
 		while not(turtle.detect()) do
 			print("inside while " .. i)
 
@@ -197,10 +198,7 @@ function t.checkTorches()
 				end
 			end
 
-			if t.checkFuel(i) then
-				print("inside checkFuel")
-				t.move(Direction.forward)
-			end
+			t.move(Direction.forward)
 
 			i = i + 1
 		end
