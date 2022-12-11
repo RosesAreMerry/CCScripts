@@ -16,7 +16,7 @@ if (t.checkFuel(100)) then
 
 	print("outside checkTorches")
 	while running do
-		if t.checkTorches() then
+		if t.checkTunnels() then
 			print("making player tunnel")
 			t.turn(Direction.left)
 			t.playerTunnel(30)

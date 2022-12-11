@@ -98,15 +98,18 @@ function t.dig(direction)
 	end
 end
 
-function t.findItem(a)
+--- @overload fun(test: string): boolean
+--- @param test fun(data: table): boolean
+function t.findItem(test)
+	if type(test) == "string" then test = function() return item.name == ("minecraft:" .. name) end end
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
-		if item ~= nil and item.name == ("minecraft:" .. a) then
+		if item ~= nil and test(item) then
 			return true
 		end
 	end
-	return true
+	return false
 end
 
 function t.findEmpty()
@@ -174,10 +177,10 @@ function t.look()
 end
 
 --- returns whether or not the block below the turtle is a torch
-function checkTorch()
+function checkTunnel()
 	local success, data = inspect(Direction.down)
 	if success then
-		if data.name == "minecraft:torch" then
+		if data.name == "minecraft:torch" or data.tags["forge:cobblestone"] == true then
 			return true
 		end
 	end
@@ -186,7 +189,7 @@ end
 
 
 --- A function to run down a mainHallway to find a good place to place a playerTunnel
-function t.checkTorches()
+function t.checkTunnels()
 	local i = 0
 	print("outside loop")
 	for j = 1, 2 do
@@ -195,7 +198,7 @@ function t.checkTorches()
 			print("inside while " .. i)
 
 			if i % 5 == 0 then
-				if not checkTorch() then
+				if not checkTunnel() then
 					return true
 				end
 			end
@@ -205,7 +208,7 @@ function t.checkTorches()
 			i = i + 1
 		end
 
-		if not checkTorch() then
+		if not checkTunnel() then
 			return true
 		end
 
@@ -276,11 +279,14 @@ end
 --- Makes a player traversable tunnel, including torches.
 --- @param a number Tunnel length
 function t.playerTunnel(a)
+	t.findItem("cobblestone")
+	turtle.placeDown()
+
 	for i = 0, a do
 		if not(t.checkFuel(a)) then
 			return
 		end
-		if i % 8 == 0 then
+		if i % 8 == 1 then
 			t.placeTorch()
 		end
 		t.digMove()
