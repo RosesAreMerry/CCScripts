@@ -139,7 +139,7 @@ function t.checkFuel(a)
 end
 
 --- @return boolean, blockData
-local function inspect(direction)
+function inspect(direction)
 	local success, data
 	if direction == Direction.up then
 		success, data = turtle.inspectUp()
