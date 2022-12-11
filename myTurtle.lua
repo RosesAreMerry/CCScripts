@@ -175,7 +175,7 @@ end
 function checkTorch()
 	local success, data = inspect(Direction.down)
 	if success then
-		if not(data.name == "minecraft:torch") then
+		if data.name == "minecraft:torch" then
 			return true
 		end
 	end
@@ -193,7 +193,7 @@ function t.checkTorches()
 			print("inside while " .. i)
 
 			if i % 5 == 0 then
-				if checkTorch() then
+				if not checkTorch() then
 					return true
 				end
 			end
@@ -203,7 +203,7 @@ function t.checkTorches()
 			i = i + 1
 		end
 
-		if checkTorch() then
+		if not checkTorch() then
 			return true
 		end
 
