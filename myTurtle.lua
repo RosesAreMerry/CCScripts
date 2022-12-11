@@ -27,7 +27,7 @@ function t.planarMove(direction, amount, strict)
 	if amount == nil then amount = 1 end
 	if strict == nil then strict = false end
 	local moves = 0
-	for i = 1, amount do
+	for _ = 1, amount do
 		if direction == Direction.up then
 			if turtle.up() then
 				moves = moves + 1
@@ -139,7 +139,7 @@ function t.checkFuel(a)
 	return true
 end
 
---- @return blockData
+--- @return boolean, blockData
 local function inspect(direction)
 	local success, data
 	if direction == Direction.up then
@@ -150,27 +150,25 @@ local function inspect(direction)
 		success, data = turtle.inspect()
 	end
 	if not success then
-		return {
-			name = nil,
-			state = {axis = nil},
-			tags = {nil = nil}
-		}
+		return false, {name = nil,
+		state = nil,
+		tags = nil}
 	end
 end
 
 function t.look()
 	---@shape surroundings
-	---@field [Direction] table|string
+	---@field [Direction] blockData
 	local surroundings = {}
 
-	success, surroundings[Direction.forward] = turtle.inspect()
+	success, surroundings[Direction.forward] = inspect(Direction.forward)
 	t.turn(Direction.right)
-	success, surroundings[Direction.right] = turtle.inspect()
+	success, surroundings[Direction.right] = inspect(Direction.forward)
 	t.turn(Direction.backward)
-	success, surroundings[Direction.left] = turtle.inspect()
+	success, surroundings[Direction.left] = inspect(Direction.forward)
 	t.turn(Direction.right)
-	success, surroundings[Direction.down] = turtle.inspectDown()
-	success, surroundings[Direction.up] = turtle.inspectUp()
+	success, surroundings[Direction.down] = inspect(Direction.down)
+	success, surroundings[Direction.up] = inspect(Direction.up)
 	return surroundings
 end
 
@@ -181,7 +179,7 @@ end
 
 --- returns whether or not the block below the turtle is a torch
 function checkTorch()
-	local success, data = turtle.inspectDown()
+	local success, data = inspect(Direction.down)
 	if success then
 		if not(data.name == "minecraft:torch") then
 			return true
@@ -287,17 +285,8 @@ function t.playerTunnel(a)
 	end
 end
 
-function t.digColumn(a)
-	t.dig(Direction.forward)
-	t.moveTurn(Direction.forward)
-	t.findItemByTag("forge:cobblestone")
-	t.place()
-	t.dig(Direction.down)
-	t.dig(Direction.up)
-end
-
 function t.mainHallway(a)
-	for i = 0, a do
+	for _ = 0, a do
 		t.findItem("cobblestone")
 		t.dig(Direction.forward)
 		t.move(Direction.forward)

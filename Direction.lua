@@ -18,12 +18,12 @@ function Direction:create(directionVector)
 	return --[[---@type Direction]] dir
 end
 
-function Direction:applyTurn()
-	if (self == Direction.up or self == Direction.down) then
+function Direction:applyTurn(turn)
+	if (turn == Direction.up or turn == Direction.down) then
 		return
 	end
 
-	local result = facingDirection.value * self.value
+	local result = self.value * turn.value
 	if result > 3 then
 		result = -(result % 3)
 	end
