@@ -79,6 +79,7 @@ function t.unTurn(direction)
 	elseif (direction == Direction.forward) then
 		return
 	else
+		print(direction)
 		t.turn(direction:opposite())
 	end
 end
