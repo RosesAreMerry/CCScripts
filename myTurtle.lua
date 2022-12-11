@@ -1,3 +1,4 @@
+---@class MyTurtle
 local t = {}
 
 require("Direction")
@@ -70,13 +71,15 @@ function t.moveTurn(direction, ...)
 	end
 end
 
-function t.unTurn(a)
-	if (a == Direction.backward) then
-		t.turn(a)
-	elseif (a == Direction.forward) then
+--- Undo a Turn.
+--- @param direction Direction
+function t.unTurn(direction)
+	if (direction == Direction.backward) then
+		t.turn(direction)
+	elseif (direction == Direction.forward) then
 		return
 	else
-		t.turn(-a)
+		t.turn(direction:opposite())
 	end
 end
 

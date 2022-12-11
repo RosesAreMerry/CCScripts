@@ -30,6 +30,10 @@ function Direction:applyTurn(turn)
 	self.value = result
 end
 
+function Direction:opposite()
+	return Direction:create(-self.value)
+end
+
 Direction.forward = Direction:create(1)
 Direction.backward = Direction:create(-1)
 Direction.left = Direction:create(2)
