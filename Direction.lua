@@ -1,12 +1,7 @@
 ---@class Direction
 ---@field value -3 | -2 | -1 | 1 | 2 | 3
----@field forward Direction
----@field backward Direction
----@field left Direction
----@field right Direction
----@field up Direction
----@field down Direction
-Direction = {__index = Direction}
+Direction = {}
+Direction.__index = Direction
 
 --- Instantiate a new Direction.
 ---@param directionVector -3 | -2 | -1 | 1 | 2 | 3
