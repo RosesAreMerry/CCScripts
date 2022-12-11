@@ -50,25 +50,17 @@ function t.planarMove(direction, amount, strict)
 	return moves
 end
 
-local function moveWithNumber(a, b)
-	t.turn(a)
-	t.planarMove(a, b)
-end
-
-local function moveOnlyDirection(a)
-	moveWithNumber(a, 1)
-end
-
 --- Move the turtle while not preserving facing direction. (The turtle will end up in the input orientation)
----@param direction Direction
----@vararg number
-function t.moveTurn(direction, ...)
-	local number = select(2, ...)
-	if number == nil then
-		moveOnlyDirection(direction)
-	else
-		moveWithNumber(direction, number)
+--- @overload fun(direction: Direction)
+--- @param direction Direction
+--- @param number number
+--- @vararg number
+function t.moveTurn(direction, number)
+	if number == nil then number = 1 end
+	if (direction == Direction.left or direction == Direction.right) then
+		t.turn(direction)
 	end
+	t.planarMove(direction, number)
 end
 
 --- Undo a Turn.
@@ -92,13 +84,15 @@ function t.move(direction, ...)
 	t.unTurn(direction)
 end
 
-function t.dig(a)
-	if a == Direction.up then
+--- Dig in a direction, turning if needed.
+--- @param direction Direction
+function t.dig(direction)
+	if direction == Direction.up then
 		turtle.digUp()
-	elseif a == Direction.down then
+	elseif direction == Direction.down then
 		turtle.digDown()
 	else
-		t.turn(a)
+		t.turn(direction)
 		turtle.dig()
 	end
 end
@@ -235,19 +229,18 @@ function dig(a)
 end
 
 --- Digs in a direction, checking to see if the dig was successful (there is no more block in the way),
---- then moves in that direction.
+--- then moves in that direction. Does not preserve facing direction.
 --- @overload fun()
-function t.digMove(a)
-	if (a == nil) then
-		a = Direction.forward
-	end
-	t.turn(a)
+--- @param direction Direction
+function t.digMove(direction)
+	if (direction == nil) then direction = Direction.forward end
+	t.turn(direction)
 	local success, data = turtle.inspect()
 	while success do
-		t.dig(a)
+		t.dig(direction:forwardOrVertical())
 		success, data = turtle.inspect()
 	end
-	t.planarMove(a, 1)
+	t.planarMove(direction, 1)
 end
 
 function t.oreCheck()
@@ -264,7 +257,7 @@ function t.oreCheck()
 end
 
 --- Makes a player traversable tunnel, including torches.
--- @param a Tunnel length 
+--- @param a number Tunnel length
 function t.playerTunnel(a)
 	for i = 1, a do
 		if not(t.checkFuel(a)) then
@@ -287,43 +280,31 @@ end
 function t.mainHallway(a)
 	for _ = 0, a do
 		t.findItem("cobblestone")
-		t.dig(Direction.forward)
-		t.move(Direction.forward)
-		t.dig(Direction.down)
-		t.move(Direction.down)
+		t.digMove(Direction.forward)
+		t.digMove(Direction.down)
 		turtle.placeDown()
-		t.dig(Direction.right)
-		t.move(Direction.forward)
+		t.digMove(Direction.right)
 		turtle.placeDown()
 		turtle.place()
-		t.dig(Direction.up)
-		t.move(Direction.up)
+		t.digMove(Direction.up)
 		turtle.place()
-		t.dig(Direction.up)
-		t.move(Direction.up)
+		t.digMove(Direction.up)
 		turtle.place()
 		turtle.placeUp()
-		t.dig(Direction.backward)
-		t.move(Direction.forward)
+		t.digMove(Direction.backward)
 		turtle.placeUp()
-		t.dig(Direction.forward)
-		t.move(Direction.forward)
+		t.digMove(Direction.forward)
 		turtle.placeUp()
 		turtle.place()
-		t.dig(Direction.down)
-		t.move(Direction.down)
+		t.digMove(Direction.down)
 		turtle.place()
-		t.dig(Direction.down)
-		t.move(Direction.down)
+		t.digMove(Direction.down)
 		turtle.place()
 		turtle.placeDown()
 		t.moveTurn(Direction.backward)
-		t.dig(Direction.up)
-		t.move(Direction.up)
+		t.digMove(Direction.up)
 		t.turn(Direction.right)
 	end
 end
-
-t.dir = Direction
 
 return t
