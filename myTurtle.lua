@@ -101,7 +101,7 @@ end
 --- @overload fun(test: string): boolean
 --- @param test fun(data: table): boolean
 function t.findItem(test)
-	if type(test) == "string" then test = function() return item.name == ("minecraft:" .. name) end end
+	if type(test) == "string" then test = function() return item.name == ("minecraft:" .. test) end end
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
