@@ -1,22 +1,42 @@
 ---@class Direction
----@field value -3 | -2 | -1 | 1 | 2 | 3
+---@field private value -3 | -2 | -1 | 1 | 2 | 3
 ---@field forward Direction
 ---@field backward Direction
 ---@field left Direction
 ---@field right Direction
 ---@field up Direction
 ---@field down Direction
+---@field __index Direction
 Direction = {}
 Direction.__index = Direction
 
 --- Instantiate a new Direction.
 ---@param directionVector -3 | -2 | -1 | 1 | 2 | 3
 ---@return Direction new direction
-function Direction:create(directionVector)
+---@private
+function Direction.create(directionVector)
 	local dir = {}                  -- our new object
 	setmetatable(dir, Direction)    -- make Direction handle lookup
 	dir.value = directionVector     -- initialize our object
 	return --[[---@type Direction]] dir
+end
+
+Direction.forward = Direction.create(1)
+Direction.backward = Direction.create(-1)
+Direction.left = Direction.create(2)
+Direction.right = Direction.create(-2)
+Direction.up = Direction.create(3)
+Direction.down = Direction.create(-3)
+
+--- Get a direction of the specified Vector
+function Direction.valueOf(directionVector)
+	if     directionVector == -3 then return Direction.down
+	elseif directionVector == -2 then return Direction.right
+	elseif directionVector == -1 then return Direction.backward
+	elseif directionVector == 1 then return Direction.forward
+	elseif directionVector == 2 then return Direction.left
+	elseif directionVector == 3 then return Direction.up
+	end
 end
 
 --- Apply a turn to a direction. If direction is right, and you turn right, you will be backward etc.
@@ -28,16 +48,16 @@ function Direction:applyTurn(turn)
 	end
 
 	local result = self.value * turn.value
-	if result > 3 then
+	if result > 3 or result < -3 then
 		result = -(result % 3)
 	end
-	return Direction:create(result)
+	return Direction.valueOf(result)
 end
 
 --- Returns the opposite of the direction.
 ---@return Direction The modified direction.
 function Direction:opposite()
-	return Direction:create(-self.value)
+	return Direction.valueOf(-self.value)
 end
 
 --- Returns forward or the input direction if the direction is left right or backward.
@@ -53,12 +73,5 @@ function Direction:forwardOrVertical(default)
 	end
 	return Direction.forward
 end
-
-Direction.forward = Direction:create(1)
-Direction.backward = Direction:create(-1)
-Direction.left = Direction:create(2)
-Direction.right = Direction:create(-2)
-Direction.up = Direction:create(3)
-Direction.down = Direction:create(-3)
 
 
