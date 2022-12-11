@@ -1,29 +1,10 @@
 local t = {}
 
-Direction = {
-	forward = 1,
-	backward = -1,
-	left = 2,
-	right = -2,
-	up = 3,
-	down = -3,
-}
-
-relativeLocation = {x = 0, y = 0, z = 0}
-
 facingDirection = Direction.forward
 
-function Direction.applyTurn(a)
-  if (a == Direction.up or a == Direction.down) then
-    return
-  end
-  
-  result = facingDirection * a
-  if result > 3 then
-    result = -(result % 3)
-  end
-end
-
+--- Wrapper for turtle.turn functions using Direction class. It will only work for directions
+--- that can be turned to; left, right, and backward.
+---@param a Direction the direction to turn.
 function t.turn(a)
 	if a == Direction.left then
 		turtle.turnLeft()
@@ -35,40 +16,57 @@ function t.turn(a)
 	end
 end
 
-function t.planarMove(a, b)
-  moves = 0
-	for i = 1, b do
-		if a == Direction.up then
+--- Move without turning at all. Used by higher level move functions.
+---@overload fun(direction:Direction, amount:number)
+---@overload fun(direction:Direction)
+---@param direction Direction The direction to move.
+---@param amount number The number of blocks to move.
+---@param strict boolean Whether to still move if the direction is left or right
+---@return number The number of completed moves
+function t.planarMove(direction, amount, strict)
+	if amount == nil then amount = 1 end
+	if strict == nil then strict = false end
+	local moves = 0
+	for i = 1, amount do
+		if direction == Direction.up then
 			if turtle.up() then
-			  moves = moves + 1
+				moves = moves + 1
 			end
-		elseif a == Direction.down then
+		elseif direction == Direction.down then
 			if turtle.down() then
-			  moves = moves + 1
+				moves = moves + 1
 			end
-		else
+		elseif direction == Direction.backward then
+			if turtle.back() then
+				moves = moves + 1
+			end
+		elseif direction == Direction.forward or not strict then
 			if turtle.forward() then
-		    moves = moves + 1
+				moves = moves + 1
 			end
 		end
 	end
-  return moves
+	return moves
 end
 
-function moveWithNumber(a, b)
+local function moveWithNumber(a, b)
 	t.turn(a)
 	t.planarMove(a, b)
 end
 
-function moveOnlyDirection(a)
+local function moveOnlyDirection(a)
 	moveWithNumber(a, 1)
 end
 
-function t.moveTurn(...)
-	if arg[2] == nil then
-		moveOnlyDirection(arg[1])
+--- Move the turtle while not preserving facing direction. (The turtle will end up in the input orientation)
+---@param direction Direction
+---@vararg number
+function t.moveTurn(direction, ...)
+	local number = select(2, ...)
+	if number == nil then
+		moveOnlyDirection(direction)
 	else
-		moveWithNumber(arg[1], arg[2])
+		moveWithNumber(direction, number)
 	end
 end
 
@@ -82,9 +80,12 @@ function t.unTurn(a)
 	end
 end
 
-function t.move(...)
-  t.moveTurn(arg[1], arg[2])
-  t.unTurn(arg[1])
+--- Move while respecting facing direction
+--- @param direction Direction
+--- @vararg number
+function t.move(direction, ...)
+	t.moveTurn(direction, select(1, ...))
+	t.unTurn(direction)
 end
 
 function t.dig(a)
@@ -138,7 +139,28 @@ function t.checkFuel(a)
 	return true
 end
 
+--- @return blockData
+local function inspect(direction)
+	local success, data
+	if direction == Direction.up then
+		success, data = turtle.inspectUp()
+	elseif direction == Direction.down then
+		success, data = turtle.inspectDown()
+	else
+		success, data = turtle.inspect()
+	end
+	if not success then
+		return {
+			name = nil,
+			state = {axis = nil},
+			tags = {nil = nil}
+		}
+	end
+end
+
 function t.look()
+	---@shape surroundings
+	---@field [Direction] table|string
 	local surroundings = {}
 
 	success, surroundings[Direction.forward] = turtle.inspect()
@@ -153,18 +175,23 @@ function t.look()
 end
 
 function t.blockAhead()
-	success, data = turtle.inspect()
+	turtle.detect()
 	return success
 end
 
+--- returns whether or not the block below the turtle is a torch
 function checkTorch()
-	success, data = turtle.inspectDown()
-	if not(data.name == "minecraft:torch") then
-		return true
+	local success, data = turtle.inspectDown()
+	if success then
+		if not(data.name == "minecraft:torch") then
+			return true
+		end
 	end
 	return false
 end
 
+
+--- A function to run down a mainHallway to find a good place to place a playerTunnel
 function t.checkTorches()
 	local i = 0
 	print("outside loop")
@@ -190,7 +217,7 @@ function t.checkTorches()
 		if checkTorch() then
 			return true
 		end
-				
+
 		t.moveTurn(Direction.right, 2)
 		t.turn(Direction.right)
 		i = 0
@@ -210,6 +237,9 @@ function dig(a)
 	end
 end
 
+--- Digs in a direction, checking to see if the dig was successful (there is no more block in the way),
+--- then moves in that direction.
+--- @overload fun()
 function t.digMove(a)
 	if (a == nil) then
 		a = Direction.forward
@@ -255,7 +285,7 @@ function t.playerTunnel(a)
 		t.oreCheck()
 		t.moveTurn(Direction.up)
 	end
-end  
+end
 
 function t.digColumn(a)
 	t.dig(Direction.forward)
@@ -299,7 +329,7 @@ function t.mainHallway(a)
 		t.move(Direction.down)
 		turtle.place()
 		turtle.placeDown()
-		t.move(Direction.backward)
+		t.moveTurn(Direction.backward)
 		t.dig(Direction.up)
 		t.move(Direction.up)
 		t.turn(Direction.right)
