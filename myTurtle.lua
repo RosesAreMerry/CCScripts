@@ -250,7 +250,7 @@ function t.digMove(direction)
 	while t.detect(direction) do
 		t.dig(direction:forwardOrVertical())
 	end
-	t.planarMove(direction, 1)
+	t.planarMove(direction:forwardOrVertical(), 1)
 end
 
 function t.oreCheck()
@@ -303,8 +303,6 @@ function t.mainHallway(a)
 		turtle.placeUp()
 		t.digMove(Direction.backward)
 		turtle.placeUp()
-		print("here")
-		os.sleep(3)
 		t.digMove(Direction.forward)
 		turtle.placeUp()
 		turtle.place()
