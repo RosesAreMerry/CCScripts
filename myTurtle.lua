@@ -188,7 +188,7 @@ function t.checkTorches()
 	local i = 0
 	print("outside loop")
 	for j = 1, 2 do
-		print("inside loop " .. j .. "  " .. turtle.inspect())
+		print("inside loop " .. j .. "  " .. tostring(turtle.inspect()))
 		while not(turtle.detect()) do
 			print("inside while " .. i)
 
