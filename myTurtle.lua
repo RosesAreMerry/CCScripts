@@ -247,7 +247,7 @@ end
 function t.digMove(direction)
 	if (direction == nil) then direction = Direction.forward end
 	t.turn(direction)
-	while turtle.detect() do
+	while t.detect(direction) do
 		t.dig(direction:forwardOrVertical())
 	end
 	t.planarMove(direction, 1)
