@@ -101,7 +101,7 @@ function t.findItem(a)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
-		if not(item == nil) and item.name == ("minecraft:" .. a) then
+		if item ~= nil and item.name == ("minecraft:" .. a) then
 			return true
 		end
 	end
@@ -266,17 +266,22 @@ function t.oreCheck()
 	end
 end
 
+--- Tries to find and place a torch downwards.
+function t.placeTorch()
+	if t.findItem("torch") then
+		turtle.placeDown()
+	end
+end
+
 --- Makes a player traversable tunnel, including torches.
 --- @param a number Tunnel length
 function t.playerTunnel(a)
-	for i = 1, a do
+	for i = 0, a do
 		if not(t.checkFuel(a)) then
 			return
 		end
-		if i % 8 == 1 then
-			if t.findItem("torch") then
-				turtle.placeDown()
-			end
+		if i % 8 == 0 then
+			t.placeTorch()
 		end
 		t.digMove()
 		t.oreCheck()
@@ -288,7 +293,10 @@ function t.playerTunnel(a)
 end
 
 function t.mainHallway(a)
-	for _ = 0, a do
+	for i = 0, a do
+		if (i % 8 == 0) then
+			t.placeTorch()
+		end
 		t.findItem("cobblestone")
 		t.digMove(Direction.forward)
 		t.digMove(Direction.down)
