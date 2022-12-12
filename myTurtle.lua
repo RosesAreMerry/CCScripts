@@ -72,7 +72,7 @@ function t.planarMove(direction, amount, strict)
 			end
 		elseif direction == Direction.forward or not strict then
 			if turtle.forward() then
-				relativeLocation:applyMove(direction)
+				relativeLocation:applyMove(Direction.forward)
 			end
 		end
 	end

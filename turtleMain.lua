@@ -10,8 +10,8 @@ if (t.checkFuel(100)) then
 		t.move(Direction.left)
 	else
 		t.mainHallway(30)
-		t.moveTurn(Direction.right)
-		t.turn(Direction.right)
+		t.moveTurn(Direction.backward, 30)
+		t.move(Direction.left)
 	end
 
 	print("outside checkTorches")
