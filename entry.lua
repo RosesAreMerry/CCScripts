@@ -1,1 +1,1 @@
-os.run(_G, '/scripts/turtleMain.lua')
+shell.run('scripts/turtleMain')
