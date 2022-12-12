@@ -316,8 +316,8 @@ function t.oreCheck(recursionNumber)
 				t.digMove(direction:forwardOrVertical())
 				t.oreCheck()
 				t.move(direction:forwardOrVertical():opposite())
-				t.unTurn(direction)
 			end
+			t.unTurn(direction)
 		end
 	end
 end
