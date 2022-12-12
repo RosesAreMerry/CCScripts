@@ -22,7 +22,7 @@ function relativeLocation:applyMove(direction)
 	elseif direction == Direction.up then self.z = self.z + 1
 	elseif direction == Direction.backward then relativeLocation:simpleMove(facingDirection:opposite())
 	elseif direction == Direction.forward then relativeLocation:simpleMove(facingDirection) end
-	print(textutils.serialize(relativeLocation))
+	print(relativeLocation.x .. ", " .. relativeLocation.y .. ", " .. relativeLocation.z .. ", ")
 end
 
 --- Wrapper for turtle.turn functions using Direction class. It will only work for directions
