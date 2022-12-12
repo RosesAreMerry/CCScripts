@@ -11,7 +11,7 @@ localEnv.Direction = Direction
 localEnv.Location = Location
 while running do
 	print("What should I do?")
-	assert(load(read(), nil, "t", localEnv))
+	assert(load(read(), nil, "t", _G))
 end
 
 
