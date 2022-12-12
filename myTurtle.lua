@@ -6,6 +6,9 @@ require("Location")
 
 relativeLocation = Location.create()
 facingDirection = Direction.forward
+--- @shape itemTable
+--- @field [number] string
+requiredItems = {"torch", "cobblestone"}
 
 --- Wrapper for turtle.turn functions using Direction class. It will only work for directions
 --- that can be turned to; left, right, and backward.
@@ -153,6 +156,26 @@ function t.checkFuel(a)
 		end
 	end
 	return true
+end
+
+function t.awaitItem(name)
+	local hasItem = false
+	while not hasItem do
+		hasItem = t.findItem(name)
+	end
+end
+
+function t.requestItem(name)
+	print("Out of " .. name .. " Please insert more to continue.")
+	t.awaitItem(name)
+end
+
+function t.checkItems()
+	for _, item in pairs(requiredItems) do
+		if t.findItem(item) == false then
+			t.requestItem(item)
+		end
+	end
 end
 
 --- @return boolean, blockData
