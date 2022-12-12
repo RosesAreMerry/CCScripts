@@ -1,1 +1,1 @@
-os.run({ }, 'turtleMain')
+os.run({ }, '/scripts/turtleMain')
