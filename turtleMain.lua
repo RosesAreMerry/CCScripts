@@ -5,14 +5,6 @@ running = true
 
 t.checkFuel(100)
 t.checkItems()
-local localEnv = {}
-localEnv.t = t
-localEnv.Direction = Direction
-localEnv.Location = Location
-while running do
-	print("What should I do?")
-	assert(load(read(), nil, "t", _G))
-end
 
 
 -- Move from starting position to mining tunnel
