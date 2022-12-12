@@ -5,6 +5,7 @@ running = true
 
 t.checkFuel(100)
 t.checkItems()
+shell.run(read())
 
 
 -- Move from starting position to mining tunnel
