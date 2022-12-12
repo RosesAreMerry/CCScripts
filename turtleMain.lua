@@ -5,7 +5,14 @@ running = true
 
 t.checkFuel(100)
 t.checkItems()
-shell.run(read())
+local localEnv = {}
+localEnv.t = t
+localEnv.Direction = Direction
+localEnv.Location = Location
+while running do
+	loaded = load(read(), nil, "t", localEnv)
+	loaded()
+end
 
 
 -- Move from starting position to mining tunnel
