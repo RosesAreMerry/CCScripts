@@ -3,17 +3,47 @@ local t = {}
 
 require("Direction")
 
+--- @shape location
+--- @field x number X location
+--- @field y number Y location
+--- @field z number Z location
+relativeLocation = {x = 0, y = 0, z = 0}
+facingDirection = Direction.forward
+
+function relativeLocation:simpleMove(direction)
+	if     direction == Direction.left then self.y = self.y + 1
+	elseif direction == Direction.right then self.y = self.y - 1
+	elseif direction == Direction.backward then self.x = self.x - 1
+	elseif direction == Direction.forward then self.x = self.x + 1 end
+end
+
+function relativeLocation:applyMove(direction)
+	if     direction == Direction.down then self.z = self.z - 1
+	elseif direction == Direction.up then self.z = self.z + 1
+	elseif direction == Direction.backward then relativeLocation:simpleMove(facingDirection:opposite())
+	elseif direction == Direction.forward then relativeLocation:simpleMove(facingDirection) end
+	print(textutils.serialize(relativeLocation))
+end
+
 --- Wrapper for turtle.turn functions using Direction class. It will only work for directions
 --- that can be turned to; left, right, and backward.
 ---@param a Direction the direction to turn.
 function t.turn(a)
 	if a == Direction.left then
-		turtle.turnLeft()
+		if turtle.turnLeft() then
+			facingDirection = facingDirection:applyTurn(Direction.left)
+		end
 	elseif a == Direction.right then
-		turtle.turnRight()
+		if turtle.turnRight() then
+			facingDirection = facingDirection:applyTurn(Direction.right)
+		end
 	elseif a == Direction.backward then
-		turtle.turnRight()
-		turtle.turnRight()
+		if turtle.turnRight() then
+			facingDirection = facingDirection:applyTurn(Direction.right)
+		end
+		if turtle.turnRight() then
+			facingDirection = facingDirection:applyTurn(Direction.right)
+		end
 	end
 end
 
@@ -23,7 +53,6 @@ end
 ---@param direction Direction The direction to move.
 ---@param amount number The number of blocks to move.
 ---@param strict boolean Whether to still move if the direction is left or right
----@return number The number of completed moves
 function t.planarMove(direction, amount, strict)
 	if amount == nil then amount = 1 end
 	if strict == nil then strict = false end
@@ -31,23 +60,22 @@ function t.planarMove(direction, amount, strict)
 	for _ = 1, amount do
 		if direction == Direction.up then
 			if turtle.up() then
-				moves = moves + 1
+				relativeLocation:applyMove(direction)
 			end
 		elseif direction == Direction.down then
 			if turtle.down() then
-				moves = moves + 1
+				relativeLocation:applyMove(direction)
 			end
 		elseif direction == Direction.backward then
 			if turtle.back() then
-				moves = moves + 1
+				relativeLocation:applyMove(direction)
 			end
 		elseif direction == Direction.forward or not strict then
 			if turtle.forward() then
-				moves = moves + 1
+				relativeLocation:applyMove(direction)
 			end
 		end
 	end
-	return moves
 end
 
 --- Move the turtle while not preserving facing direction. (The turtle will end up in the input orientation)
