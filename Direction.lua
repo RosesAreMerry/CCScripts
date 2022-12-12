@@ -47,10 +47,17 @@ function Direction:applyTurn(turn)
 		return self
 	end
 
+	--- -2 ^ -2 = -1
+	--- 2 ^ 2 = -1
+	--- 1 ^ 2 = 2
+	--- 1 ^ -2 = -2
+	--- -1 ^ 2 = -2
+	--- -1 ^ -2 = 2
 	local result = self.value * turn.value
-	if result > 3 or result < -3 then
-		result = -(result % 3)
+	if result == 4 then
+		result = -1
 	end
+	
 	return Direction.valueOf(result)
 end
 
