@@ -20,8 +20,8 @@ if (t.checkFuel(100)) then
 			print("making player tunnel")
 			t.turn(Direction.left)
 			t.playerTunnel(30)
-			t.moveTurn(Direction.backward, 30)
-			t.turn(Direction.left)
+			t.moveTurn(Direction.backward, 31)
+			t.turn(Direction.right)
 		else
 			print("making hallway")
 			t.move(Direction.right)
