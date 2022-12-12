@@ -39,6 +39,12 @@ function Direction.valueOf(directionVector)
 	end
 end
 
+--- Get a copy of a direction
+--- @return Direction
+function Direction:copy()
+	return Direction.valueOf(self.value)
+end
+
 --- Apply a turn to a direction. If direction is right, and you turn right, you will be backward etc.
 --- @param turn Direction the Direction to apply
 --- @return Direction The modified Direction.
@@ -68,6 +74,10 @@ end
 ---@return Direction The modified direction.
 function Direction:opposite()
 	return Direction.valueOf(-self.value)
+end
+
+function Direction:isTurn()
+	return self == Direction.left or self == Direction.right
 end
 
 --- Returns forward or the input direction if the direction is left right or backward.

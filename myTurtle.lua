@@ -3,27 +3,8 @@ local t = {}
 
 require("Direction")
 
---- @shape location
---- @field x number X location
---- @field y number Y location
---- @field z number Z location
-relativeLocation = {x = 0, y = 0, z = 0}
+relativeLocation = Location.create()
 facingDirection = Direction.forward
-
-function relativeLocation:simpleMove(direction)
-	if     direction == Direction.left then self.y = self.y + 1
-	elseif direction == Direction.right then self.y = self.y - 1
-	elseif direction == Direction.backward then self.x = self.x - 1
-	elseif direction == Direction.forward then self.x = self.x + 1 end
-end
-
-function relativeLocation:applyMove(direction)
-	if     direction == Direction.down then self.z = self.z - 1
-	elseif direction == Direction.up then self.z = self.z + 1
-	elseif direction == Direction.backward then relativeLocation:simpleMove(facingDirection:opposite())
-	elseif direction == Direction.forward then relativeLocation:simpleMove(facingDirection) end
-	print(relativeLocation.x .. ", " .. relativeLocation.y .. ", " .. relativeLocation.z .. ", ")
-end
 
 --- Wrapper for turtle.turn functions using Direction class. It will only work for directions
 --- that can be turned to; left, right, and backward.
@@ -56,23 +37,22 @@ end
 function t.planarMove(direction, amount, strict)
 	if amount == nil then amount = 1 end
 	if strict == nil then strict = false end
-	local moves = 0
 	for _ = 1, amount do
 		if direction == Direction.up then
 			if turtle.up() then
-				relativeLocation:applyMove(direction)
+				relativeLocation = relativeLocation:applyMove(direction)
 			end
 		elseif direction == Direction.down then
 			if turtle.down() then
-				relativeLocation:applyMove(direction)
+				relativeLocation = relativeLocation:applyMove(direction)
 			end
 		elseif direction == Direction.backward then
 			if turtle.back() then
-				relativeLocation:applyMove(direction)
+				relativeLocation = relativeLocation:applyMove(direction)
 			end
 		elseif direction == Direction.forward or not strict then
 			if turtle.forward() then
-				relativeLocation:applyMove(Direction.forward)
+				relativeLocation = relativeLocation:applyMove(Direction.forward)
 			end
 		end
 	end
@@ -110,7 +90,9 @@ end
 --- @param number number
 function t.move(direction, number)
 	t.moveTurn(direction, number)
-	t.unTurn(direction)
+	if (direction:isTurn()) then
+		t.unTurn(direction)
+	end
 end
 
 --- Dig in a direction, turning if needed.
@@ -287,15 +269,30 @@ function t.digMove(direction)
 	t.planarMove(direction:forwardOrVertical(), 1)
 end
 
-function t.oreCheck()
+--- Returns whether or not this block should be mined as ore.
+--- @param ore blockData
+--- @return boolean
+local function isWantedOre(ore)
+	return not(ore.tags == nil)
+			and ore.tags["forge:ores"] == true
+			and ore.name ~= "minecraft:copper_ore"
+			and ore.name ~= "minecraft:deepslate_copper_ore"
+end
+
+--- Checks to see if there are ores around and mines them if there are.
+--- @overload fun()
+--- @param recursionNumber number
+function t.oreCheck(recursionNumber)
 	local sur = t.look()
-	for k, v in pairs( sur ) do
-		if not(v.tags == nil) and v.tags["forge:ores"] == true then
-			t.turn(k)
-			t.digMove()
-			t.oreCheck()
-			t.move(Direction.backward)
-			t.unTurn(k)
+	for direction, block in pairs( sur ) do
+		if isWantedOre(block) then
+			t.turn(direction)
+			local success, data = inspect(direction:forwardOrVertical())
+			if success then
+				t.digMove()
+				t.oreCheck()
+				t.unTurn(direction)
+			end
 		end
 	end
 end
