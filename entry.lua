@@ -1,1 +1,1 @@
-shell.run('scripts/turtleMain')
+os.run(nil, 'scripts/turtleMain')
