@@ -1,1 +1,1 @@
-os.run({ }, 'Direction.lua')
+os.run({ }, '/scripts/turtleMain.lua')
