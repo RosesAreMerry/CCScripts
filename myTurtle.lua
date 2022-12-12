@@ -339,6 +339,9 @@ function t.playerTunnel(a)
 		if not(t.checkFuel(a)) then
 			return
 		end
+		if i == 1 then
+			t.dig(Direction.up)
+		end
 		if i % 8 == 1 then
 			t.placeTorch()
 		end
