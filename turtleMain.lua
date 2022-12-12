@@ -10,9 +10,13 @@ localEnv.t = t
 localEnv.Direction = Direction
 localEnv.Location = Location
 while running do
-	loaded = load(read(), nil, "t", localEnv)
-	loaded()
-end
+	loaded, error = load(read(), nil, "t", localEnv)
+	if loaded then
+		loaded()
+	else
+		print(error)
+	end
+	end
 
 
 -- Move from starting position to mining tunnel
