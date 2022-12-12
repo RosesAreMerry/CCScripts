@@ -90,9 +90,14 @@ end
 
 --- Move while respecting facing direction
 --- @overload fun(direction: Direction)
+--- @overload fun(number: number)
 --- @param direction Direction
 --- @param number number
 function t.move(direction, number)
+	if type(direction) == "number" then
+		number = --[[---@type number]] direction
+		direction = Direction.forward
+	end
 	t.moveTurn(direction, number)
 	if (direction:isTurn()) then
 		t.unTurn(direction)
