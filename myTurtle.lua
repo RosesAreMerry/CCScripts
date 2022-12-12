@@ -2,6 +2,7 @@
 local t = {}
 
 require("Direction")
+require("Location")
 
 relativeLocation = Location.create()
 facingDirection = Direction.forward
