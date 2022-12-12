@@ -6,7 +6,7 @@ running = true
 t.checkFuel(100)
 t.checkItems()
 local command = read()
-load(command)
+loadstring(command)
 
 
 -- Move from starting position to mining tunnel
