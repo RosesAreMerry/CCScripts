@@ -290,8 +290,9 @@ function t.oreCheck(recursionNumber)
 			t.turn(direction)
 			local success, data = inspect(direction:forwardOrVertical())
 			if success then
-				t.digMove()
+				t.digMove(direction:forwardOrVertical())
 				t.oreCheck()
+				t.move(direction:forwardOrVertical():opposite())
 				t.unTurn(direction)
 			end
 		end
