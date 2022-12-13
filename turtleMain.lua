@@ -53,11 +53,11 @@ else
 			print("Dumping Items")
 			t.dumpItems()
 		end
-		if not t.checkItem("torch") then
+		if not t.checkItem("torch", 30) then
 			print("Getting Torches")
 			t.getTorches()
 		end
-		if not t.checkItem(function(n) return isBlock(n.name) end)then
+		if not t.checkItem(function(n) return isBlock(n.name) end, 30)then
 			print("Getting Blocks")
 			t.getBlocks()
 		end

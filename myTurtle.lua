@@ -368,10 +368,10 @@ function t.checkIfFullOrClose()
 end
 
 --- @return boolean
-function t.checkItem(predicate)
+function t.checkItem(predicate, number)
 	local _, number = t.findItem(predicate)
 	print(tostring(number))
-	return number > 30
+	return number > number
 end
 
 ---@overload fun()
@@ -400,6 +400,7 @@ function t.dumpItems(recursion)
 	t.face(Direction.forward)
 end
 
+---@overload fun()
 function t.getTorches(recursion)
 	if recursion == nil then recursion = 0 end
 	t.moveTo(Location.create(8, 1 + recursion, 0))
@@ -418,6 +419,7 @@ function t.getTorches(recursion)
 	t.face(Direction.forward)
 end
 
+---@overload fun()
 function t.getFuel(recursion)
 	if recursion == nil then recursion = 0 end
 	t.moveTo(Location.create(18, 1 + recursion, 0))
@@ -429,7 +431,7 @@ function t.getFuel(recursion)
 	else
 		error("Fuel chest empty or missing")
 	end
-	if not t.checkItem("coal") then
+	if not t.checkItem("coal", 10) then
 		error("Incorrect Input or empty chest")
 	end
 	t.fuel()
@@ -437,6 +439,8 @@ function t.getFuel(recursion)
 	t.face(Direction.forward)
 end
 
+---@overload fun()
+---@overload fun(recursion: number)
 function t.getBlocks(recursion, recursion2)
 	if recursion == nil then recursion = 0 end
 	if recursion2 == nil then recursion2 = 0 end
