@@ -350,10 +350,35 @@ function string:isBlock()
 	return self == "minecraft:cobblestone" or self == "minecraft:cobbled_deepslate"
 end
 
+function t.checkIfFullOrClose()
+	local j = 0
+	for i = 1, 16 do
+		local count = turtle.getItemCount(i)
+		if count == 0 then
+			j = j + 1
+		end
+	end
+	return j < 4
+end
+
+function t.checkItem(predicate)
+	if type(predicate) == "string" then
+		local string = predicate
+		predicate = function(n) return n == "minecraft:"..string end
+	end
+	local j = 0
+	for i = 1, 16 do
+		if predicate(turtle.getItemDetail(i).name) then
+			j = j + turtle.getItemCount(i)
+		end
+	end
+	return j > 30
+end
+
 ---@overload fun()
 function t.dumpItems(recursion)
 	if recursion == nil then recursion = 0 end
-	t.moveTo(Location.create(0, 1 + recursion, 0))
+	t.moveTo(Location.create(3, 1 + recursion, 0))
 	chest = peripheral.wrap("bottom")
 	if chest ~= nil and peripheral.hasType(chest, "inventory") then
 		local hasKeptOneStackOfBlocks = false
@@ -372,17 +397,63 @@ function t.dumpItems(recursion)
 	else
 		error("Dump chest full or missing")
 	end
+	t.moveTo(Location.create(1, 1, 0))
+	t.face(Direction.forward)
 end
 
-function t.checkIfFullOrClose()
-	local j = 0
-	for i = 1, 16 do
-		local count = turtle.getItemCount(i)
-		if count == 0 then
-			j = j + 1
+function t.getTorches(recursion)
+	if recursion == nil then recursion = 0 end
+	t.moveTo(Location.create(8, 1 + recursion, 0))
+	chest = peripheral.wrap("bottom")
+	if chest ~= nil and peripheral.hasType(chest, "inventory") then
+		if not turtle.suckDown() then
+			t.getTorches(recursion + 1)
 		end
+	else
+		error("Torch chest empty or missing")
 	end
-	return j < 4
+	if not t.checkItem("torch") then
+		error("Incorrect Input or empty chest")
+	end
+	t.moveTo(Location.create(1, 1, 0))
+	t.face(Direction.forward)
+end
+
+function t.getTorches(recursion)
+	if recursion == nil then recursion = 0 end
+	t.moveTo(Location.create(18, 1 + recursion, 0))
+	chest = peripheral.wrap("bottom")
+	if chest ~= nil and peripheral.hasType(chest, "inventory") then
+		if not turtle.suckDown() then
+			t.getTorches(recursion + 1)
+		end
+	else
+		error("Torch chest empty or missing")
+	end
+	if not t.checkItem("torch") then
+		error("Incorrect Input or empty chest")
+	end
+	t.moveTo(Location.create(1, 1, 0))
+	t.face(Direction.forward)
+end
+
+function t.getBlocks(recursion, recursion2)
+	if recursion == nil then recursion = 0 end
+	if recursion2 == nil then recursion2 = 0 end
+	t.moveTo(Location.create(13, 1 + recursion, 0))
+	chest = peripheral.wrap("bottom")
+	if chest ~= nil and peripheral.hasType(chest, "inventory") then
+		if not turtle.suckDown() then
+			t.getBlocks(recursion + 1)
+		end
+	else
+		error("Block chest empty or missing")
+	end
+	if not t.checkItem(function(n) return n:isBlock() end) then
+		error("Incorrect Input or empty chest")
+	end
+	t.moveTo(Location.create(1, 1, 0))
+	t.face(Direction.forward)
 end
 
 --- Returns whether or not this block should be mined as ore.

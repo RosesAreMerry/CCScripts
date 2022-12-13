@@ -2,9 +2,7 @@ local t = require( "myTurtle" )
 require("Direction")
 
 running = true
-
 t.checkFuel(100)
-t.checkItems()
 print("Dev mode?")
 local answer = read()
 if answer == "y" then
@@ -22,9 +20,12 @@ if answer == "y" then
 	end
 else
 
-	-- TODO: Make a system to automatically dump resources
-	-- TODO: Make a system to automatically craft and/or get necessary items.
-	-- TODO: Make a system to refuel automatically.
+	-- TODO: Make a system to automatically dump resources. DONE
+	-- TODO: Make a system to automatically craft and/or get necessary items. DONE
+	-- TODO: Make a system to refuel automatically. DONE
+	-- TODO: Reorganize turtleMain
+	-- TODO: Make sure digMove Doesn't break chests or turtles.
+	-- TODO: Make a system to automatically expand the tunnels. 3 4 6 7 9
 
 	-- Move from starting position to mining tunnel
 	if not(turtle.detect()) then
@@ -43,8 +44,12 @@ else
 
 		if t.checkIfFullOrClose() then
 			t.dumpItems()
-			t.moveTo(Location.create(1, 1, 0))
-			t.face(Direction.forward)
+		end
+		if t.checkItem("torch") then
+			t.getTorches()
+		end
+		if t.checkItem(function(n) return n:isBlock() end) then
+			t.getBlocks()
 		end
 
 		if onTheWayBack then
