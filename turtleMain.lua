@@ -48,6 +48,7 @@ else
 		end
 
 		if onTheWayBack then
+			print("here"..tunnelLength)
 			foundTunnel, wentDistance = t.checkTunnels(tunnelLength)
 		else
 			foundTunnel, wentDistance = t.checkTunnels()
