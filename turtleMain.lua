@@ -68,6 +68,7 @@ else
 			t.turn(Direction.right)
 		elseif onTheWayBack == false then
 			print("turning around")
+			tunnelLength = tunnelLength + wentDistance
 			t.moveTurn(Direction.right, 2)
 			t.turn(Direction.right)
 			onTheWayBack = true
