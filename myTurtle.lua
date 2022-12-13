@@ -312,6 +312,7 @@ end
 --- @param direction Direction
 --- @param number number
 function t.digMove(direction, number)
+	if (type(direction) == "number") then number = --[[---@type number]] direction; direction = Direction.forward end
 	if (direction == nil) then direction = Direction.forward end
 	if (number == nil) then number = 1 end
 	t.turn(direction)
