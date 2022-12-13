@@ -142,7 +142,7 @@ function t.findItem(test)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
-		if item ~= nil and test(item) then
+		if item ~= nil and test(item.name) then
 			return true, turtle.getItemCount()
 		end
 	end
@@ -347,7 +347,6 @@ function t.moveTo(location)
 end
 
 function isBlock(string)
-	print(textutils.serialize(string))
 	print("is "..string.."a block? ")
 	local block = string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
 	print(block)

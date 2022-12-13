@@ -57,7 +57,7 @@ else
 			print("Getting Torches")
 			t.getTorches()
 		end
-		if not t.checkItem(isBlock) then
+		if not t.checkItem(function(n) return isBlock(n.item) end)then
 			print("Getting Blocks")
 			t.getBlocks()
 		end
