@@ -235,6 +235,7 @@ end
 ---@param hallwayLength number
 ---@return boolean
 function t.checkTunnels(hallwayLength)
+	if (hallwayLength == nil) then hallwayLength = 30
 	for i = 0, hallwayLength do
 		t.move(Direction.forward)
 		if i % 5 == 0 then
