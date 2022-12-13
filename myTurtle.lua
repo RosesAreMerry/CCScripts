@@ -231,35 +231,19 @@ end
 
 
 --- A function to run down a mainHallway to find a good place to place a playerTunnel
-function t.checkTunnels()
-	local i = 0
-	print("outside loop")
-	for j = 1, 2 do
-		print("inside loop " .. j .. "  " .. tostring(turtle.inspect()))
-		while not(turtle.detect()) do
-			print("inside while " .. i)
-
-			if i % 5 == 0 then
-				if not checkTunnel() then
-					return true
-				end
+---@overload fun(): boolean
+---@param hallwayLength number
+---@return boolean
+function t.checkTunnels(hallwayLength)
+	for i = 0, hallwayLength do
+		t.move(Direction.forward)
+		if i % 5 == 0 then
+			if not checkTunnel() then
+				return true
 			end
-
-			t.move(Direction.forward)
-
-			i = i + 1
 		end
 
-		if not checkTunnel() then
-			return true
-		end
-
-		t.moveTurn(Direction.right, 2)
-		t.turn(Direction.right)
-		i = 0
 	end
-	t.moveTurn(Direction.right)
-	t.turn(Direction.right)
 	return false
 end
 
