@@ -315,6 +315,7 @@ function t.digMove(direction, number)
 	if (type(direction) == "number") then number = --[[---@type number]] direction; direction = Direction.forward end
 	if (direction == nil) then direction = Direction.forward end
 	if (number == nil) then number = 1 end
+	if number == 0 then return end
 	t.turn(direction)
 	while t.detect(direction) do
 		t.dig(direction:forwardOrVertical())
@@ -323,7 +324,7 @@ function t.digMove(direction, number)
 end
 
 function t.moveTo(location)
-	if (relativeLocation.z > location.y) then
+	if (relativeLocation.z > location.z) then
 		t.digMove(Direction.down, abs(relativeLocation.z - location.z))
 	else
 		t.digMove(Direction.up, abs(relativeLocation.z - location.z))
