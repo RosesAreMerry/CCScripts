@@ -500,13 +500,10 @@ end
 --- Makes a player traversable tunnel, including torches.
 --- @param a number Tunnel length
 function t.playerTunnel(a)
-	t.findItem("cobblestone")
+	t.findItem(function(n) return isBlock(n.name) end)
 	turtle.placeDown()
 
 	for i = 0, a do
-		if not(t.checkFuel(a)) then
-			return
-		end
 		if i == 1 then
 			t.dig(Direction.up)
 		end
