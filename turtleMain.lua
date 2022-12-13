@@ -54,6 +54,7 @@ else
 		end
 
 		print(tunnelLength)
+		print(wentDistance)
 
 		if foundTunnel and not wentDistance == 0 then
 			if onTheWayBack then
