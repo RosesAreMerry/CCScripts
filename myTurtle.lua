@@ -341,14 +341,23 @@ function t.moveTo(location)
 	t.digMove(abs(relativeLocation.y - location.y))
 end
 
+function string:isBlock()
+	return self == "minecraft:cobblestone" or self == "minecraft:cobbled_deepslate"
+end
+
 function t.dumpItems(recursion)
 	if recursion == nil then recursion = 0 end
 	t.moveTo(Location.create(0, 1 + recursion, 0))
 	chest = peripheral.wrap("bottom")
 	if peripheral.hasType(chest, "inventory") then
+		local hasKeptOneStackOfBlocks = false
 		for i = 1, 16 do
 			turtle.select(i)
 			if (turtle.getItemDetail().name == "minecraft:torch") then
+				break
+			end
+			if (turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
+				hasKeptOneStackOfBlocks = true
 				break
 			end
 			if not turtle.dropDown() then
