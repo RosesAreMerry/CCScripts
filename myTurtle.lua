@@ -358,8 +358,11 @@ function t.dumpItems(recursion)
 			if (turtle.getItemDetail() ~= nil and turtle.getItemDetail().name == "minecraft:torch") then
 			elseif (turtle.getItemDetail() ~= nil and turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
 				hasKeptOneStackOfBlocks = true
-			elseif not turtle.dropDown() then
-				t.dumpItems(recursion + 1)
+			else
+				local success, message = turtle.dropDown()
+				if message == "No space for items" then
+					t.dumpItems(recursion + 1)
+				end
 			end
 		end
 	else
