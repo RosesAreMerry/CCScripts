@@ -368,10 +368,10 @@ function t.checkIfFullOrClose()
 end
 
 --- @return boolean
-function t.checkItem(predicate, number)
+function t.checkItem(predicate, requiredNumber)
 	local _, number = t.findItem(predicate)
 	print(tostring(number))
-	return number > number
+	return number > requiredNumber
 end
 
 ---@overload fun()
