@@ -346,8 +346,8 @@ function t.moveTo(location)
 	t.digMove(abs(relativeLocation.y - location.y))
 end
 
-function string:isBlock()
-	return self == "minecraft:cobblestone" or self == "minecraft:cobbled_deepslate"
+function isBlock(string)
+	return string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
 end
 
 function t.checkIfFullOrClose()
