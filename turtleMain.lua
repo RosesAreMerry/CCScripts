@@ -70,10 +70,11 @@ else
 			foundTunnel, wentDistance = t.checkTunnels()
 		end
 
+		print("foundTunnel="..tostring(foundTunnel))
 		print(tunnelLength)
 		print(wentDistance)
 
-		if foundTunnel and not wentDistance == 0 then
+		if foundTunnel and wentDistance ~= 0 then
 			if onTheWayBack then
 				tunnelLength = tunnelLength - wentDistance
 			else

@@ -53,6 +53,5 @@ function Location:applyMove(moveDirection)
 	elseif moveDirection == Direction.up then newLocation.z = newLocation.z + 1
 	elseif moveDirection == Direction.backward then newLocation = newLocation:simpleMove(facingDirection:opposite())
 	elseif moveDirection == Direction.forward then newLocation = newLocation:simpleMove(facingDirection:copy()) end
-	print(newLocation.x .. ", " .. newLocation.y .. ", " .. newLocation.z .. ", ")
 	return newLocation
 end
