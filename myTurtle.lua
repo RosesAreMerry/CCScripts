@@ -347,6 +347,7 @@ function t.moveTo(location)
 end
 
 function isBlock(string)
+	if string == nil then return end
 	print(textutils.serialize(string))
 	print("is "..string.."a block? ")
 	local block = string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
