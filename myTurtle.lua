@@ -317,10 +317,12 @@ function t.digMove(direction, number)
 	if (number == nil) then number = 1 end
 	if number == 0 then return end
 	t.turn(direction)
-	while t.detect(direction) do
-		t.dig(direction:forwardOrVertical())
+	for i = 1, number do
+		while t.detect(direction) do
+			t.dig(direction:forwardOrVertical())
+		end
+		t.planarMove(direction:forwardOrVertical(), 1)
 	end
-	t.planarMove(direction:forwardOrVertical(), 1)
 end
 
 function t.moveTo(location)
@@ -351,7 +353,7 @@ function t.dumpItems(recursion)
 	if recursion == nil then recursion = 0 end
 	t.moveTo(Location.create(0, 1 + recursion, 0))
 	chest = peripheral.wrap("bottom")
-	if peripheral.hasType(chest, "inventory") then
+	if chest ~= nil and peripheral.hasType(chest, "inventory") then
 		local hasKeptOneStackOfBlocks = false
 		for i = 1, 16 do
 			turtle.select(i)
