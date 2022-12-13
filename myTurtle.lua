@@ -253,12 +253,15 @@ function checkTunnel()
 end
 
 local function oneBlockOfTunnel(i, last)
+	print("oneBlock")
 	if i % 5 == 0 then
+		print("Checking Tunnel")
 		if not checkTunnel() then
 			return true
 		end
 	end
 	if not last then
+		print("forward")
 		t.move(Direction.forward)
 	end
 end
