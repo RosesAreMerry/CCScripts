@@ -40,6 +40,13 @@ else
 	local foundTunnel, wentDistance
 	local tunnelLength = 0
 	while running do
+
+		if t.checkIfFullOrClose() then
+			t.dumpItems()
+			t.moveTo(Location.create(1, 1, 0))
+			t.face(Direction.forward)
+		end
+
 		if onTheWayBack then
 			foundTunnel, wentDistance = t.checkTunnels(tunnelLength)
 		else

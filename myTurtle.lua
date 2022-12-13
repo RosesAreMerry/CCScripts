@@ -349,6 +349,7 @@ function string:isBlock()
 	return self == "minecraft:cobblestone" or self == "minecraft:cobbled_deepslate"
 end
 
+---@overload fun()
 function t.dumpItems(recursion)
 	if recursion == nil then recursion = 0 end
 	t.moveTo(Location.create(0, 1 + recursion, 0))
@@ -370,6 +371,17 @@ function t.dumpItems(recursion)
 	else
 		error("Dump chest full or missing")
 	end
+end
+
+function t.checkIfFullOrClose()
+	local j = 0
+	for i = 1, 16 do
+		local count = turtle.getItemCount(i)
+		if count == 0 then
+			j = j + 1
+		end
+	end
+	return j < 4
 end
 
 --- Returns whether or not this block should be mined as ore.
