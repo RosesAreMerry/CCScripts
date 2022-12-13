@@ -21,6 +21,11 @@ if answer == "y" then
 		end
 	end
 else
+
+	-- TODO: Make a system to automatically dump resources
+	-- TODO: Make a system to automatically craft and/or get necessary items.
+	-- TODO: Make a system to refuel automatically.
+
 	-- Move from starting position to mining tunnel
 	if (t.checkFuel(100)) then
 		if not(turtle.detect()) then
