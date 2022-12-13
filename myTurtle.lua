@@ -167,7 +167,7 @@ end
 
 function t.checkFuel(a)
 	level = turtle.getFuelLevel()
-	if (a + 50) >= level then
+	if a >= level then
 		if t.fuel() then
 			return t.checkFuel(a)
 		else
@@ -419,13 +419,13 @@ function t.getTorches(recursion)
 	t.face(Direction.forward)
 end
 
-function t.getTorches(recursion)
+function t.getFuel(recursion)
 	if recursion == nil then recursion = 0 end
 	t.moveTo(Location.create(18, 1 + recursion, 0))
 	chest = peripheral.wrap("bottom")
 	if chest ~= nil and peripheral.hasType(chest, "inventory") then
-		if not turtle.suckDown() then
-			t.getTorches(recursion + 1)
+		if not turtle.suckDown(10) then
+			t.getFuel(recursion + 1)
 		end
 	else
 		error("Torch chest empty or missing")
@@ -433,6 +433,7 @@ function t.getTorches(recursion)
 	if not t.checkItem("torch") then
 		error("Incorrect Input or empty chest")
 	end
+	t.fuel()
 	t.moveTo(Location.create(1, 1, 0))
 	t.face(Direction.forward)
 end

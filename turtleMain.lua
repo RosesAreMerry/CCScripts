@@ -42,6 +42,10 @@ else
 	local tunnelLength = 0
 	while running do
 
+
+		if t.checkFuel(300) then
+			t.getFuel()
+		end
 		if t.checkIfFullOrClose() then
 			t.dumpItems()
 		end
