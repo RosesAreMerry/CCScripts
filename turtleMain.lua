@@ -33,8 +33,20 @@ else
 		end
 
 		local onTheWayBack = false
+		local foundTunnel, wentDistance
+		local tunnelLength = 0
 		while running do
-			if t.checkTunnels() then
+			if onTheWayBack then
+				foundTunnel, wentDistance = t.checkTunnels(tunnelLength)
+			else
+				foundTunnel, wentDistance = t.checkTunnels()
+			end
+			if foundTunnel and not wentDistance == 0 then
+				if onTheWayBack then
+					tunnelLength = tunnelLength - wentDistance
+				else
+					tunnelLength = tunnelLength + wentDistance
+				end
 				print("making player tunnel")
 				t.turn(Direction.left)
 				t.playerTunnel(30)

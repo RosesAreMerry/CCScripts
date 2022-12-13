@@ -229,24 +229,44 @@ function checkTunnel()
 	return false
 end
 
-
---- A function to run down a mainHallway to find a good place to place a playerTunnel
----@overload fun(): boolean
----@param hallwayLength number
----@return boolean
-function t.checkTunnels(hallwayLength)
-	if (hallwayLength == nil) then hallwayLength = 30 end
-	for i = 0, hallwayLength do
-		if i % 5 == 0 then
-			if not checkTunnel() then
-				return true
-			end
-		end
-		if (i ~= hallwayLength) then
-			t.move(Direction.forward)
+local function oneBlockOfTunnel(i, last)
+	if i % 5 == 0 then
+		if not checkTunnel() then
+			return true
 		end
 	end
-	return false
+	if not last then
+		t.move(Direction.forward)
+	end
+end
+
+--- A function to run down a mainHallway to find a good place to place a playerTunnel
+---@overload fun(): (boolean, number)
+---@param hallwayLength number
+---@return (boolean, number)
+function t.checkTunnels(hallwayLength)
+	if (hallwayLength == nil) then
+		local last = false
+		local i = 0
+		while not t.detect(Direction.forward) or last do
+			if oneBlockOfTunnel(i, last) then
+				return true, i
+			end
+			i = i + 1
+			if last then
+				last = false
+			elseif t.detect(Direction.forward) then
+				last = true
+			end
+		end
+		return false, i
+	else
+		for i = 0, hallwayLength do
+			oneBlockOfTunnel(i, (i ~= hallwayLength))
+		end
+	end
+
+	return false, hallwayLength
 end
 
 function dig(a)
