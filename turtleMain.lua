@@ -12,7 +12,7 @@ if answer == "y" then
 	while running do
 		loaded, error = load(read(), nil, "t", localEnv)
 		if loaded then
-			loaded()
+			pcall(loaded)
 		else
 			print(error)
 		end
