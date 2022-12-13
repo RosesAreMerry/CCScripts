@@ -347,7 +347,10 @@ function t.moveTo(location)
 end
 
 function isBlock(string)
-	return string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
+	print("is "..string.."a block? ")
+	local block = string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
+	print(block)
+	return block
 end
 
 function t.checkIfFullOrClose()
