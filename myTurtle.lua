@@ -444,7 +444,7 @@ function t.getBlocks(recursion, recursion2)
 	else
 		error("Block chest empty or missing")
 	end
-	if not t.checkItem(isBlock) then
+	if not t.checkItem(function(n) return isBlock(n.item) end) then
 		error("Incorrect Input or empty chest")
 	end
 	t.moveTo(Location.create(1, 1, 0))
