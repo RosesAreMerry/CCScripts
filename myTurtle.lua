@@ -142,6 +142,7 @@ function t.findItem(test)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
+		print("here"..textutils.serialize(test))
 		if item ~= nil and test(item) then
 			return true, turtle.getItemCount()
 		end
