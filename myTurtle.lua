@@ -412,7 +412,7 @@ function t.getTorches(recursion)
 	else
 		error("Torch chest empty or missing")
 	end
-	if not t.checkItem("torch") then
+	if not t.checkItem("torch", 30) then
 		error("Incorrect Input or empty chest")
 	end
 	t.moveTo(Location.create(1, 1, 0))
