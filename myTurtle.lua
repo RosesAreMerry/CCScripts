@@ -142,7 +142,7 @@ function t.findItem(test)
 	for i = 1, 16 do
 		turtle.select(i)
 		item = turtle.getItemDetail()
-		print("here"..textutils.serialize(test))
+		print("here")
 		if item ~= nil and test(item) then
 			return true, turtle.getItemCount()
 		end
@@ -447,7 +447,7 @@ function t.getBlocks(recursion, recursion2)
 	else
 		error("Block chest empty or missing")
 	end
-	if not t.checkItem(function(n) return isBlock(n.item) end) then
+	if not t.checkItem(function(n) return isBlock(n.name) end) then
 		error("Incorrect Input or empty chest")
 	end
 	t.moveTo(Location.create(1, 1, 0))
