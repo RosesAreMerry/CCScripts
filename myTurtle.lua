@@ -370,6 +370,7 @@ end
 --- @return boolean
 function t.checkItem(predicate)
 	local _, number = t.findItem(predicate)
+	print(tostring(number))
 	return number > 30
 end
 
