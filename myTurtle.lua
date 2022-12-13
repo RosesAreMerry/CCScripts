@@ -372,7 +372,7 @@ end
 function t.checkItem(predicate, requiredNumber)
 	local _, number = t.findItem(predicate)
 	print(tostring(number))
-	return number > requiredNumber
+	return number >= requiredNumber
 end
 
 ---@overload fun()
