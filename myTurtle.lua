@@ -143,7 +143,7 @@ function t.findItem(test)
 		turtle.select(i)
 		item = turtle.getItemDetail()
 		if item ~= nil and test(item) then
-			return true, item.getItemCount()
+			return true, turtle.getItemCount()
 		end
 	end
 	return false, 0
