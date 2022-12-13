@@ -236,14 +236,15 @@ end
 ---@return boolean
 function t.checkTunnels(hallwayLength)
 	if (hallwayLength == nil) then hallwayLength = 30 end
-	for i = -1, hallwayLength do
-		t.move(Direction.forward)
+	for i = 0, hallwayLength do
 		if i % 5 == 0 then
 			if not checkTunnel() then
 				return true
 			end
 		end
-
+		if (i ~= hallwayLength) then
+			t.move(Direction.forward)
+		end
 	end
 	return false
 end
