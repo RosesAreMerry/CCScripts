@@ -356,13 +356,9 @@ function t.dumpItems(recursion)
 		for i = 1, 16 do
 			turtle.select(i)
 			if (turtle.getItemDetail().name == "minecraft:torch") then
-				break
-			end
-			if (turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
+			elseif (turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
 				hasKeptOneStackOfBlocks = true
-				break
-			end
-			if not turtle.dropDown() then
+			elseif not turtle.dropDown() then
 				t.dumpItems(recursion + 1)
 			end
 		end
