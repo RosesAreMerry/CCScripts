@@ -53,19 +53,19 @@ else
 			print("Dumping Items")
 			t.dumpItems()
 		end
-		if t.checkItem("torch") then
+		if not t.checkItem("torch") then
 			print("Getting Torches")
 			t.getTorches()
 		end
-		if t.checkItem(function(n) return n:isBlock() end) then
+		if not t.checkItem(function(n) return n:isBlock() end) then
 			print("Getting Blocks")
 			t.getBlocks()
 		end
 
 		if onTheWayBack then
 			foundTunnel, wentDistance = t.checkTunnels(tunnelLength)
-			print("foundTunnel="..foundTunnel)
-			print("wentDistance="..wentDistance)
+			print("foundTunnel="..tostring(foundTunnel))
+			print("wentDistance="..tostring(wentDistance))
 		else
 			foundTunnel, wentDistance = t.checkTunnels()
 		end
