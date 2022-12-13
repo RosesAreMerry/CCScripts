@@ -284,7 +284,8 @@ function t.checkTunnels(hallwayLength)
 		end
 		return false, i
 	else
-		for i = 0, hallwayLength do
+		for i = 1, hallwayLength do
+			print("what")
 			oneBlockOfTunnel(i, (i ~= hallwayLength))
 		end
 	end
