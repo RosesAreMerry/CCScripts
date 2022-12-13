@@ -367,6 +367,7 @@ function t.checkIfFullOrClose()
 	return j < 4
 end
 
+--- @param predicate string|fun(data: table): boolean
 --- @return boolean
 function t.checkItem(predicate, requiredNumber)
 	local _, number = t.findItem(predicate)
@@ -453,7 +454,7 @@ function t.getBlocks(recursion, recursion2)
 	else
 		error("Block chest empty or missing")
 	end
-	if not t.checkItem(function(n) return isBlock(n.name) end) then
+	if not t.checkItem(function(n) return isBlock(n.name) end, 30) then
 		error("Incorrect Input or empty chest")
 	end
 	t.moveTo(Location.create(1, 1, 0))
