@@ -14,11 +14,12 @@ if answer == "y" then
 		if loaded then
 			local success, message = pcall(loaded)
 			if not success then print(message)
-		else
-			print(error)
+			else
+				print(error)
+			end
 		end
 	end
-end
+else
 	-- TODO: Make a system to automatically dump resources. DONE
 	-- TODO: Make a system to automatically craft and/or get necessary items. DONE
 	-- TODO: Make a system to refuel automatically. DONE
