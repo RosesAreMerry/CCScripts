@@ -171,11 +171,10 @@ function t.checkFuel(a)
 		if t.fuel() then
 			return t.checkFuel(a)
 		else
-			print("Out of Fuel!!!")
-			return false
+			return true
 		end
 	end
-	return true
+	return false
 end
 
 function t.awaitItem(name)
@@ -368,7 +367,7 @@ function t.checkItem(predicate)
 	end
 	local j = 0
 	for i = 1, 16 do
-		if predicate(turtle.getItemDetail(i).name) then
+		if turtle.getItemDetail() ~= nil and predicate(turtle.getItemDetail(i).name) then
 			j = j + turtle.getItemCount(i)
 		end
 	end
@@ -428,9 +427,9 @@ function t.getFuel(recursion)
 			t.getFuel(recursion + 1)
 		end
 	else
-		error("Torch chest empty or missing")
+		error("Fuel chest empty or missing")
 	end
-	if not t.checkItem("torch") then
+	if not t.checkItem("coal") then
 		error("Incorrect Input or empty chest")
 	end
 	t.fuel()
