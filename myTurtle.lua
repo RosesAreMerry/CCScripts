@@ -137,7 +137,7 @@ end
 function t.findItem(test)
 	if type(test) == "string" then
 		local name = test
-		test = function() return item.name == ("minecraft:" .. name) end
+		test = function(n) return n.name == ("minecraft:" .. name) end
 	end
 	for i = 1, 16 do
 		turtle.select(i)
@@ -367,6 +367,7 @@ function t.checkIfFullOrClose()
 	return j < 4
 end
 
+--- @return boolean
 function t.checkItem(predicate)
 	local _, number = t.findItem(predicate)
 	return number > 30
