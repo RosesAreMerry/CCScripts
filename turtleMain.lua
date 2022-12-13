@@ -12,13 +12,13 @@ if answer == "y" then
 	while running do
 		loaded, error = load(read(), nil, "t", localEnv)
 		if loaded then
-			pcall(loaded)
+			local success, message = pcall(loaded)
+			if not success then print(message)
 		else
 			print(error)
 		end
 	end
-else
-
+end
 	-- TODO: Make a system to automatically dump resources. DONE
 	-- TODO: Make a system to automatically craft and/or get necessary items. DONE
 	-- TODO: Make a system to refuel automatically. DONE
