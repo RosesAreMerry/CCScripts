@@ -336,9 +336,9 @@ function t.moveTo(location)
 	end
 	t.digMove(abs(relativeLocation.x - location.x))
 	if (relativeLocation.y > location.y) then
-		t.face(Direction.left)
-	else
 		t.face(Direction.right)
+	else
+		t.face(Direction.left)
 	end
 	t.digMove(abs(relativeLocation.y - location.y))
 end
