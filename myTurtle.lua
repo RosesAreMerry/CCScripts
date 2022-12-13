@@ -32,6 +32,21 @@ function t.turn(a)
 	end
 end
 
+--- Wrapper for turtle.turn functions using Direction class. Will turn to face the direction relative to facingDirection.
+---@param direction Direction the direction to turn.
+function t.face(direction)
+	if (direction == facingDirection) then
+		return
+	elseif (direction == facingDirection:applyTurn(Direction.left)) then
+		t.turn(Direction.left)
+	elseif (direction == facingDirection:applyTurn(Direction.right)) then
+		t.turn(Direction.right)
+	elseif (direction == facingDirection:applyTurn(Direction.backward)) then
+		t.turn(Direction.right)
+		t.turn(Direction.right)
+	end
+end
+
 --- Move without turning at all. Used by higher level move functions.
 ---@overload fun(direction:Direction, amount:number)
 ---@overload fun(direction:Direction)
@@ -218,6 +233,14 @@ function t.look()
 	return surroundings
 end
 
+function abs(number)
+	if number < 0 then
+		return -number
+	else
+		return number
+	end
+end
+
 --- returns whether or not the block below the turtle is a torch
 function checkTunnel()
 	local success, data = inspect(Direction.down)
@@ -269,16 +292,6 @@ function t.checkTunnels(hallwayLength)
 	return false, hallwayLength
 end
 
-function dig(a)
-	if (a == Direction.up) then
-		turtle.digUp()
-	elseif (a == Direction.down) then
-		turtle.digUp()
-	else
-		turtle.dig()
-	end
-end
-
 --- Detects in a specific direction. Does not turn.
 --- @param direction Direction
 function t.detect(direction)
@@ -294,14 +307,57 @@ end
 --- Digs in a direction, checking to see if the dig was successful (there is no more block in the way),
 --- then moves in that direction. Does not preserve facing direction.
 --- @overload fun()
+--- @overload fun(direction: Direction)
+--- @overload fun(number: number)
 --- @param direction Direction
-function t.digMove(direction)
+--- @param number number
+function t.digMove(direction, number)
 	if (direction == nil) then direction = Direction.forward end
+	if (number == nil) then number = 1 end
 	t.turn(direction)
 	while t.detect(direction) do
 		t.dig(direction:forwardOrVertical())
 	end
 	t.planarMove(direction:forwardOrVertical(), 1)
+end
+
+function t.moveTo(location)
+	if (relativeLocation.z > location.y) then
+		t.digMove(Direction.down, abs(relativeLocation.z - location.z))
+	else
+		t.digMove(Direction.up, abs(relativeLocation.z - location.z))
+	end
+	if (relativeLocation.x > location.x) then
+		t.face(Direction.backward)
+	else
+		t.face(Direction.forward)
+	end
+	t.digMove(abs(relativeLocation.x - location.x))
+	if (relativeLocation.y > location.y) then
+		t.face(Direction.left)
+	else
+		t.face(Direction.right)
+	end
+	t.digMove(abs(relativeLocation.y - location.y))
+end
+
+function t.dumpItems(recursion)
+	if recursion == nil then recursion = 0 end
+	t.moveTo(Location.create(0, 1 + recursion, 0))
+	chest = peripheral.wrap("bottom")
+	if peripheral.hasType(chest, "inventory") then
+		for i = 1, 16 do
+			turtle.select(i)
+			if (turtle.getItemDetail().name == "minecraft:torch") then
+				break
+			end
+			if not turtle.dropDown() then
+				t.dumpItems(recursion + 1)
+			end
+		end
+	else
+		error("Dump chest full or missing")
+	end
 end
 
 --- Returns whether or not this block should be mined as ore.

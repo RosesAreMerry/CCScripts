@@ -13,7 +13,6 @@ Location.__index = Location
 --- @param y number Y coordinate
 --- @param z number Z coordinate
 --- @return Location new location
---- @private
 function Location.create(x, y, z)
 	if x == nil then x = 0 end
 	if y == nil then y = 0 end

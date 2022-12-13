@@ -27,52 +27,51 @@ else
 	-- TODO: Make a system to refuel automatically.
 
 	-- Move from starting position to mining tunnel
-	if (t.checkFuel(100)) then
-		if not(turtle.detect()) then
-			t.move(Direction.forward)
-			t.move(Direction.left)
+	if not(turtle.detect()) then
+		t.move(Direction.forward)
+		t.move(Direction.left)
+	else
+		t.mainHallway(30)
+		t.moveTurn(Direction.backward, 30)
+		t.move(Direction.left)
+	end
+
+	local onTheWayBack = false
+	local foundTunnel, wentDistance
+	local tunnelLength = 0
+	while running do
+		if onTheWayBack then
+			foundTunnel, wentDistance = t.checkTunnels(tunnelLength)
 		else
+			foundTunnel, wentDistance = t.checkTunnels()
+		end
+
+		if foundTunnel and not wentDistance == 0 then
+			if onTheWayBack then
+				tunnelLength = tunnelLength - wentDistance
+			else
+				tunnelLength = tunnelLength + wentDistance
+			end
+			print("making player tunnel")
+			t.turn(Direction.left)
+			t.playerTunnel(30)
+			t.moveTurn(Direction.backward, 31)
+			t.turn(Direction.right)
+		elseif onTheWayBack == false then
+			print("turning around")
+			t.moveTurn(Direction.right, 2)
+			t.turn(Direction.right)
+			onTheWayBack = true
+		else
+			print("making hallway")
+			t.move(Direction.right)
+			while not(turtle.detect()) do
+				t.move(Direction.forward)
+			end
 			t.mainHallway(30)
 			t.moveTurn(Direction.backward, 30)
 			t.move(Direction.left)
-		end
-
-		local onTheWayBack = false
-		local foundTunnel, wentDistance
-		local tunnelLength = 0
-		while running do
-			if onTheWayBack then
-				foundTunnel, wentDistance = t.checkTunnels(tunnelLength)
-			else
-				foundTunnel, wentDistance = t.checkTunnels()
-			end
-			if foundTunnel and not wentDistance == 0 then
-				if onTheWayBack then
-					tunnelLength = tunnelLength - wentDistance
-				else
-					tunnelLength = tunnelLength + wentDistance
-				end
-				print("making player tunnel")
-				t.turn(Direction.left)
-				t.playerTunnel(30)
-				t.moveTurn(Direction.backward, 31)
-				t.turn(Direction.right)
-			elseif onTheWayBack == false then
-				print("turning around")
-				t.moveTurn(Direction.right, 2)
-				t.turn(Direction.right)
-				onTheWayBack = true
-			else
-				print("making hallway")
-				t.move(Direction.right)
-				while not(turtle.detect()) do
-					t.move(Direction.forward)
-				end
-				t.mainHallway(30)
-				t.moveTurn(Direction.backward, 30)
-				t.move(Direction.left)
-				onTheWayBack = false
-			end
+			onTheWayBack = false
 		end
 	end
 end
