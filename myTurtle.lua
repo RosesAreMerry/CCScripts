@@ -283,7 +283,7 @@ function t.checkTunnels(hallwayLength)
 		end
 		return false, i
 	else
-		for i = 1, hallwayLength do
+		for i = 0, hallwayLength do
 			if oneBlockOfTunnel(i, (i ~= hallwayLength)) then
 				return true, i
 			end
