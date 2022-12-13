@@ -132,7 +132,7 @@ function t.dig(direction)
 	end
 end
 
---- @overload fun(test: string): boolean
+--- @overload fun(test: string): boolean, number
 --- @param test fun(data: table): boolean
 function t.findItem(test)
 	if type(test) == "string" then
@@ -143,10 +143,10 @@ function t.findItem(test)
 		turtle.select(i)
 		item = turtle.getItemDetail()
 		if item ~= nil and test(item) then
-			return true
+			return true, item.getItemCount()
 		end
 	end
-	return false
+	return false, 0
 end
 
 function t.findEmpty()
@@ -361,17 +361,8 @@ function t.checkIfFullOrClose()
 end
 
 function t.checkItem(predicate)
-	if type(predicate) == "string" then
-		local string = predicate
-		predicate = function(n) return n == "minecraft:"..string end
-	end
-	local j = 0
-	for i = 1, 16 do
-		if turtle.getItemDetail() ~= nil and predicate(turtle.getItemDetail(i).name) then
-			j = j + turtle.getItemCount(i)
-		end
-	end
-	return j > 30
+	local _, number = t.findItem(predicate)
+	return number > 30
 end
 
 ---@overload fun()
