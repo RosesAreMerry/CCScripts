@@ -350,6 +350,10 @@ function isBlock(string)
 	return string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
 end
 
+function string:isBlock()
+	return isBlock(self)
+end
+
 function t.checkIfFullOrClose()
 	local j = 0
 	for i = 1, 16 do
