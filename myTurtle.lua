@@ -355,8 +355,8 @@ function t.dumpItems(recursion)
 		local hasKeptOneStackOfBlocks = false
 		for i = 1, 16 do
 			turtle.select(i)
-			if (turtle.getItemDetail().name == "minecraft:torch") then
-			elseif (turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
+			if (turtle.getItemDetail() ~= nil and turtle.getItemDetail().name == "minecraft:torch") then
+			elseif (turtle.getItemDetail() ~= nil and turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
 				hasKeptOneStackOfBlocks = true
 			elseif not turtle.dropDown() then
 				t.dumpItems(recursion + 1)
