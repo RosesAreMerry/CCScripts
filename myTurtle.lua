@@ -350,10 +350,6 @@ function isBlock(string)
 	return string == "minecraft:cobblestone" or string == "minecraft:cobbled_deepslate"
 end
 
-function string:isBlock()
-	return isBlock(self)
-end
-
 function t.checkIfFullOrClose()
 	local j = 0
 	for i = 1, 16 do
@@ -380,7 +376,7 @@ function t.dumpItems(recursion)
 		for i = 1, 16 do
 			turtle.select(i)
 			if (turtle.getItemDetail() ~= nil and turtle.getItemDetail().name == "minecraft:torch") then
-			elseif (turtle.getItemDetail() ~= nil and turtle.getItemDetail().name:isBlock() and not hasKeptOneStackOfBlocks) then
+			elseif (turtle.getItemDetail() ~= nil and isBlock(turtle.getItemDetail().name) and not hasKeptOneStackOfBlocks) then
 				hasKeptOneStackOfBlocks = true
 			else
 				local success, message = turtle.dropDown()
@@ -445,7 +441,7 @@ function t.getBlocks(recursion, recursion2)
 	else
 		error("Block chest empty or missing")
 	end
-	if not t.checkItem(function(n) return n:isBlock() end) then
+	if not t.checkItem(isBlock) then
 		error("Incorrect Input or empty chest")
 	end
 	t.moveTo(Location.create(1, 1, 0))
