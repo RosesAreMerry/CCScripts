@@ -253,15 +253,12 @@ function checkTunnel()
 end
 
 local function oneBlockOfTunnel(i, last)
-	print("oneBlock")
 	if i % 5 == 0 then
-		print("Checking Tunnel")
 		if not checkTunnel() then
 			return true
 		end
 	end
 	if not last then
-		print("forward")
 		t.move(Direction.forward)
 	end
 end
@@ -288,7 +285,7 @@ function t.checkTunnels(hallwayLength)
 		return false, i
 	else
 		for i = 0, hallwayLength do
-			if oneBlockOfTunnel(i, (i ~= hallwayLength)) then
+			if oneBlockOfTunnel(i, (i == hallwayLength)) then
 				return true, i
 			end
 		end
